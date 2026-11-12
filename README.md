@@ -1,0 +1,2 @@
+# ot_miniprojekti_ryhma9
+TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
