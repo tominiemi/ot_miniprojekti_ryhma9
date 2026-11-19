@@ -12,7 +12,7 @@ class Reference:
         # Haetaan JSON-määrittely
         json_path = Path(__file__).parent / "bibtex_types.json"
 
-        with open("bibtex_types.json", "r", encoding="utf-8") as file:
+        with open(json_path, "r", encoding="utf-8") as file:
             self.schema = json.load(file)
 
         definition = self.get_definition()
