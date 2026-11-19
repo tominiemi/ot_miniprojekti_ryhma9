@@ -37,6 +37,8 @@ class Reference:
 
         return definition
         
+def get_attributes(self):
+    return self.attributes
 
-
+def set_attribute()
     
