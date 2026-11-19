@@ -1,4 +1,5 @@
-import bibtex_types.json
+from pathlib import Path
+
 import json
 
 
@@ -9,6 +10,8 @@ class Reference:
         self.attributes = {}
 
         # Haetaan JSON-määrittely
+        json_path = Path(__file__).parent / "bibtex_types.json"
+
         with open("bibtex_types.json", "r", encoding="utf-8") as file:
             self.schema = json.load(file)
 
