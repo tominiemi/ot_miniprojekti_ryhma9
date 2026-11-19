@@ -14,7 +14,6 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
 [Linkki projektin Jira-backlogiin](https://ohtuprojekti.atlassian.net/jira/software/projects/KAN/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiZWYyYThjM2Q4MmE3NGQwODlhNzc5OGJiYmNiMWVmYmEiLCJwIjoiaiJ9)
 
 ## Definition of done
-User storyille tulee määritellä hyväksymiskriteerit, jotka dokumentoidaan sprintistä 2 alkaen Robot-frameworkin syntaksilla
 
 - Toteutetun koodin testikattavuuden tulee olla kohtuullinen
 - Asiakas pääsee näkemään koko ajan koodin ja testien tilanteen CI-palvelusta
