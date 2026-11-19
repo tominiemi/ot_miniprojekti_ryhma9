@@ -19,7 +19,7 @@ class Syote:
                             inp = input("Valitse uusi (inproceedings / article / book): ")
                             inp == type 
                             viite = reference(type)
-                            for i in viite.attributes{}:
+                            for i in viite.attributes:
                                 syote = input(i + ": ")
                                 viite.set_attribute(i, syote)
                                 
