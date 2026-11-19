@@ -1,3 +1,4 @@
+
 import json
 
 
@@ -8,6 +9,9 @@ class Reference:
         self.attributes = {}
 
         # Haetaan JSON-määrittely
+        with open("bibtex_types.json", "r", encoding="utf-8") as file:
+            self.schema = json.load(file)
+
         definition = self.get_definition()
 
         # Alustetaan pakolliset attribuutit
@@ -18,10 +22,7 @@ class Reference:
             else:
                 self.attributes[field] = None
 
-        # Alustetaan valinnaiset attribuutit
         
-
-
 
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
@@ -36,9 +37,12 @@ class Reference:
             definition = self.schema["bibtex"][definition["alias_of"]]
 
         return definition
-        
-def get_attributes(self):
-    return self.attributes
 
-def set_attribute()
-    
+    def get_attributes(self):
+        return self.attributes
+
+    def set_attribute(self, key, word):
+        if key not in self.attributes:
+            raise ValueError(f"Unknown attribute: {key}")
+
+        self.attributes[key] = word
