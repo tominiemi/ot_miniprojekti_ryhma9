@@ -1,4 +1,4 @@
-
+from reference.py import Reference
 
 class Syote:
 
@@ -7,3 +7,9 @@ class Syote:
         inp = ""
         while inp != "exit":
             inp = input("anna syote: ")
+            if inp == "new ":
+                inp = input("Valitse uusi (inproceedings / article / book): ")
+                inp == type 
+                Viite = reference(type)
+
+        
