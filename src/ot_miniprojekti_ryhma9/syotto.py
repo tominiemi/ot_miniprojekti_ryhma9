@@ -1,5 +1,6 @@
 
 from list import List
+from reference import Reference
 
 class Syote:
 
@@ -15,11 +16,11 @@ class Syote:
             if inp == "list":
                 self.listObj.listaa()
 
-            if inp == "new ":
-                            inp = input("Valitse uusi (inproceedings / article / book): ")
-                            inp == type 
-                            viite = reference(type)
-                            for i in viite.attributes:
-                                syote = input(i + ": ")
-                                viite.set_attribute(i, syote)
+            if inp == "new":
+                print("moikka")
+                type = input("Valitse uusi (inproceedings / article / book): ")
+                viite = Reference(type)
+                for i in viite.attributes:
+                    syote = input(i + ": ")
+                    viite.set_attribute(i, syote)
                                 
