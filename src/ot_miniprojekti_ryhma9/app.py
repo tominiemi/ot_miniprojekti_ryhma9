@@ -1,5 +1,10 @@
 from syotto import Syote
-print("Latekxi lähdeviittaus sovellus!\n Syötä komentoja:")
 
-s = Syote
-s.kysy_syotetta()
+def main():
+    print("Latekxi lähdeviittaus sovellus!\nSyötä komentoja:")
+
+    s = Syote()
+    s.kysy_syotetta()
+
+if __name__ == "__main__":
+    main()
