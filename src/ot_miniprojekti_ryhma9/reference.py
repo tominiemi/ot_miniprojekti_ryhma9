@@ -1,4 +1,4 @@
-import bibtex__types.json
+import bibtex_types.json
 import json
 
 
