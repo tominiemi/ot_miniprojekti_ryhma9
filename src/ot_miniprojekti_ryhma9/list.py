@@ -7,5 +7,5 @@ class List:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        for key in data:
+        for key in data["bibtex"]:
             print(key)
