@@ -19,8 +19,7 @@ class Reference:
                 self.attributes[field] = None
 
         # Alustetaan valinnaiset attribuutit
-        for field in definition.get("optional", []):
-            self.attributes[field] = None
+        
 
 
 
