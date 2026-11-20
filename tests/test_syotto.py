@@ -3,6 +3,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(
     0,
@@ -46,6 +47,13 @@ class TestSyote(unittest.TestCase):
         self.s.lataa_viitteet(ei_ole)
 
         self.assertEqual(self.s.viitteet, [])
+
+    def test_helpKomento(self):
+        with patch("builtins.input", side_effect=["help", "exit"]), \
+        patch("builtins.print") as mock_print:
+            self.s.kysy_syotetta(self.tiedosto)
+
+        mock_print.assert_any_call("Available commands: types / new / list")
 
 if __name__ == "__main__":
     unittest.main()
