@@ -14,7 +14,6 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
 [Linkki projektin backlogiin](https://jyu-my.sharepoint.com/:x:/g/personal/tsniemi_jyu_fi/IQBSWPW4fW00QbYaRjhJGizsAY0_ycqKrFx-kxDbhEjvBt8?e=04E1Bq)
 
 ## Definition of done
-
 - Toteutetun koodin testikattavuuden tulee olla kohtuullinen
 - Asiakas pääsee näkemään koko ajan koodin ja testien tilanteen CI-palvelusta
 - Koodin ylläpidettävyyden tulee olla mahdollisimman hyvä
@@ -23,7 +22,11 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
     - yhtenäinen koodityyli (noudattaa pylintin avulla määriteltyjä sääntöjä)
 
 ## Asennus- ja käyttöohje
-Lataa ja pura ohjelma tietokoneellesi. Sitten suorita hakemistossa komento `uv run python src/app.py`
+- Asenna koneellesi [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Lataa ja pura ohjelma
+- Asenna riippuvuudet komennolla `uv sync`
+- Suorita ohjelma komennolla `uv run python src/ot_miniprojekti_ryhma9/__init__.py`
+- Aja ohjelmaa komennoilla `new` ja `list`
 
 ## Lisenssi
-todo
+Julkaistu MIT-lisenssillä. Katso lisätietoja tiedostosta [`LICENSE`](LICENSE).
