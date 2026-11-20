@@ -5,7 +5,7 @@ class List:
 
     def listaa(self, lista):
         for olio in lista:
-            print(olio.get_viitekoodi)
+            print(olio.get_viitekoodi())
             for key in olio.attributes:
                 print(key + ": " + str(olio.attributes[key]))
 
