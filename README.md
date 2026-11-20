@@ -11,7 +11,7 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
 - Suhonen, Lauri
 
 ## Backlog
-[Linkki projektin Jira-backlogiin](https://ohtuprojekti.atlassian.net/jira/software/projects/KAN/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiZWYyYThjM2Q4MmE3NGQwODlhNzc5OGJiYmNiMWVmYmEiLCJwIjoiaiJ9)
+[Linkki projektin backlogiin](https://jyu-my.sharepoint.com/:x:/g/personal/tsniemi_jyu_fi/IQBSWPW4fW00QbYaRjhJGizsAY0_ycqKrFx-kxDbhEjvBt8?e=04E1Bq)
 
 ## Definition of done
 
