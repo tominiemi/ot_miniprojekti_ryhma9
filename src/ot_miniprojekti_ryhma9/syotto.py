@@ -1,6 +1,7 @@
 
 from list import List
 from reference import Reference
+import json
 
 class Syote:
 
@@ -27,6 +28,11 @@ class Syote:
                     viite.set_attribute(i, syote)
                 self.viitteet.append(viite)
                 print(self.viitteet)
+
+        data = {f"viite{i}": viite.attributes for i, viite in enumerate(self.viitteet, start=1)}
+
+        with open("viitteet.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
 
 
                 
