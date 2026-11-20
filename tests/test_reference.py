@@ -2,6 +2,7 @@ import sys
 import json
 from pathlib import Path
 from unittest.mock import mock_open, patch
+import unittest
 
 sys.path.insert(
     0,
@@ -11,7 +12,6 @@ sys.path.insert(
 import pytest
 from reference import Reference
 
-<<<<<<< HEAD
 
 
 class TestReference(unittest.TestCase):
@@ -59,7 +59,6 @@ class TestReference(unittest.TestCase):
                 self.testOlio.set_attribute("ouwhdi", "awhdidh")
         
 
-=======
 # Testeissä käytetään omaa pientä skeemaa, jotta ne eivät riipu
 # oikean bibtex_types.json-tiedoston sisällöstä.
 TEST_SCHEMA = {
@@ -200,4 +199,3 @@ def test_set_viitekoodi_ja_get_viitekoodi(make_reference):
     ref.set_viitekoodi("Matti2026")
 
     assert ref.get_viitekoodi() == "Matti2026"
->>>>>>> 86911209c2ca1f7ad053d0e7b75c18048a693759
