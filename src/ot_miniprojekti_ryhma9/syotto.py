@@ -18,7 +18,7 @@ class Syote:
             inp = input("anna syote: ")
 
             if inp == "list":
-                self.listObj.listaa()
+                self.listObj.listaa(self.viitteet)
 
             if inp == "new":
                 type = input("Valitse uusi (inproceedings / article / book): ")
