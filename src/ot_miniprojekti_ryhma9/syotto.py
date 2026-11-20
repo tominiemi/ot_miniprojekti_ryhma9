@@ -42,8 +42,10 @@ class Syote:
                     syote = input(i + ": ")
                     viite.set_attribute(i, syote)
                 self.viitteet.append(viite)
-                
-
+            if inp == "types":
+                self.listObj.types()
+            if inp == "help":
+                print("Available commands: types / new / list")
         data = {
             f"viite{i}": {"type": viite.entry_type, **viite.attributes}
             for i, viite in enumerate(self.viitteet, start=1)
