@@ -55,5 +55,42 @@ class TestSyote(unittest.TestCase):
 
         mock_print.assert_any_call("Available commands: types / new / list")
 
+    def test_new(self):
+        with patch("builtins.input", side_effect=[
+            "new",
+            "article",
+            "viite1",
+            "Smith",
+            "Foo",
+            "J",
+            "2020",
+            "exit"
+        ]):
+            self.s.kysy_syotetta(self.tiedosto)
+
+        data = json.loads(self.tiedosto.read_text(encoding="utf-8"))
+
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data["viite1"]["type"], "article")
+        self.assertEqual(data["viite1"]["author"], "Smith")
+        self.assertEqual(data["viite1"]["title"], "Foo")
+        self.assertEqual(data["viite1"]["journal"], "J")
+        self.assertEqual(data["viite1"]["year"], "2020")
+
+    def test_virheellinen_new(self):
+        with patch("builtins.input", side_effect=[
+            "new",
+            "invalid",
+            "exit"
+        ]):
+            with patch("builtins.print") as mock_print:
+                self.s.kysy_syotetta(self.tiedosto)
+
+        mock_print.assert_called_once_with(
+            "Virhe: Tuntematon BibTeX tyyppi: invalid"
+        )
+
+        self.assertTrue(self.tiedosto.exists())
+
 if __name__ == "__main__":
     unittest.main()
