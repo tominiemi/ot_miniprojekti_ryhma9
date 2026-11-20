@@ -10,6 +10,14 @@ class List:
                 print(key + ": " + str(olio.attributes[key]))
             print("")
 
+    def types(self):
+        json_path = Path(__file__).parent / "bibtex_types.json"
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            schema = json.load(f)
+
+        for name in schema["bibtex"]:
+            print(name)
         
 
         
