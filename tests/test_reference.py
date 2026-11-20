@@ -11,6 +11,55 @@ sys.path.insert(
 import pytest
 from reference import Reference
 
+<<<<<<< HEAD
+
+
+class TestReference(unittest.TestCase):
+
+
+    def setUp(self):
+        self.testOlio = Reference("book")
+
+    def test_set_attribute(self):
+        self.testOlio.set_attribute("author", "Pekka")
+
+        self.assertEqual(
+            self.testOlio.get_attributes()["author"],
+            "Pekka"
+        )
+
+    def test_get_attributes(self):
+        self.testOlio.set_attribute("author","Pekka")
+        self.testOlio.set_attribute("title","Pekan stoori")
+        self.assertEqual(self.testOlio.get_attributes(),{"author":"Pekka","editor":None,"title":"Pekan stoori","publisher":None,"year":None})
+
+
+    def test_set_viitekoodi(self, viitekoodi = "Moikka211"):
+        self.testOlio.set_viitekoodi(viitekoodi)
+        self.assertEqual(self.testOlio.get_viitekoodi(),viitekoodi)
+
+    def test_get_viitekoodi(self):
+        self.testOlio.set_viitekoodi("Heippa123")
+        self.assertEqual(self.testOlio.get_viitekoodi(),"Heippa123")
+
+    def test_get_definition_ei_oo(self):
+        with self.assertRaises(ValueError):
+            self.testOlio2 = Reference("sarjakuva")  
+
+
+    def test_alias(self):
+        self.testOlio3 = Reference("inproceedings")
+        self.testOlio4 = Reference("conference")
+
+        self.assertEqual(self.testOlio3.get_attributes(), self.testOlio4.get_attributes())
+
+
+    def test_set_attribute_vaara(self):
+            with self.assertRaises(ValueError):
+                self.testOlio.set_attribute("ouwhdi", "awhdidh")
+        
+
+=======
 # Testeissä käytetään omaa pientä skeemaa, jotta ne eivät riipu
 # oikean bibtex_types.json-tiedoston sisällöstä.
 TEST_SCHEMA = {
@@ -151,3 +200,4 @@ def test_set_viitekoodi_ja_get_viitekoodi(make_reference):
     ref.set_viitekoodi("Matti2026")
 
     assert ref.get_viitekoodi() == "Matti2026"
+>>>>>>> 86911209c2ca1f7ad053d0e7b75c18048a693759
