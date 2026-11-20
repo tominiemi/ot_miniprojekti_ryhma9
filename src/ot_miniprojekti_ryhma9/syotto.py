@@ -4,8 +4,11 @@ from reference import Reference
 
 class Syote:
 
+
+
     def __init__(self):
         self.listObj = List()
+        self.viitteet = []
 
     def kysy_syotetta(self):
         
@@ -22,4 +25,11 @@ class Syote:
                 for i in viite.attributes:
                     syote = input(i + ": ")
                     viite.set_attribute(i, syote)
+                self.viitteet.append(viite)
+                print(self.viitteet)
+
+
+                
+
+                
                                 
