@@ -23,3 +23,10 @@ build-backend = "uv_build"
 dev = [
     "coverage>=7.17.3",
 ]
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/ *_test.py"
+]
