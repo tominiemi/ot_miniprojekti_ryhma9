@@ -40,5 +40,12 @@ class TestSyote(unittest.TestCase):
         self.assertEqual(viite.attributes["author"], "Smith")
         self.assertEqual(viite.viitekoodi, "viite1")
 
+    def test_lataa_puuttuva_tiedosto(self):
+        ei_ole = Path(self.tmp.name) / "ei_ole.json"
+
+        self.s.lataa_viitteet(ei_ole)
+
+        self.assertEqual(self.s.viitteet, [])
+
 if __name__ == "__main__":
     unittest.main()
