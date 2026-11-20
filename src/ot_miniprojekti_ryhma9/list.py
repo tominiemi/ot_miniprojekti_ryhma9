@@ -6,7 +6,7 @@ class List:
     def listaa(self, lista):
         for olio in lista:
             for key in olio.attributes:
-                print(key + ": " + str(olio.attributes[key].value()))
+                print(key + ": " + str(olio.attributes[key]))
 
         
 
