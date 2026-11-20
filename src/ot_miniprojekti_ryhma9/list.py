@@ -1,11 +1,13 @@
 import json
 from pathlib import Path
+from reference import Reference
 class List:
 
-    def listaa(self):
-        path = Path(__file__).parent / "bibtex_types.json"
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    def listaa(self, lista):
+        for olio in lista:
+            for key in olio.attributes:
+                print(key + ": " + str(olio.attributes[key].value()))
 
-        for key in data["bibtex"]:
-            print(key)
+        
+
+        

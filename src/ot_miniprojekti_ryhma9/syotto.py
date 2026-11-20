@@ -8,7 +8,7 @@ class Syote:
         self.listObj = List()
 
     def kysy_syotetta(self):
-    
+        
         inp = ""
         while inp != "exit":
             inp = input("anna syote: ")
@@ -17,7 +17,6 @@ class Syote:
                 self.listObj.listaa()
 
             if inp == "new":
-                print("moikka")
                 type = input("Valitse uusi (inproceedings / article / book): ")
                 viite = Reference(type)
                 for i in viite.attributes:
