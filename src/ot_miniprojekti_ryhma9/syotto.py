@@ -37,6 +37,7 @@ class Syote:
             if inp == "new":
                 type = input("Valitse uusi (inproceedings / article / book): ")
                 viite = Reference(type)
+                viite.set_viitekoodi(input("Viitekoodi: "))
                 for i in viite.attributes:
                     syote = input(i + ": ")
                     viite.set_attribute(i, syote)
