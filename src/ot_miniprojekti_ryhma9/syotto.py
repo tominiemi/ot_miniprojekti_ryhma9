@@ -24,6 +24,7 @@ class Syote:
             for key, value in tiedot.items():
                 viite.attributes[key] = value
             self.viitteet.append(viite)
+
         
     def kysy_syotetta(self, tiedosto="viitteet.json"):
         
