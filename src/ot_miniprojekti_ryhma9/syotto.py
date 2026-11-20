@@ -11,21 +11,22 @@ class Syote:
         self.viitteet = []
 
     def lataa_viitteet(self, tiedosto="viitteet.json"):
-        
         if not Path(tiedosto).exists():
             return
 
         with open(tiedosto, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        for tiedot in data.values():
-            tiedot = dict(tiedot)          
+        for koodi, tiedot in data.items():
+            tiedot = dict(tiedot)
             viite = Reference(tiedot.pop("type"))
+            viite.viitekoodi = koodi
             for key, value in tiedot.items():
                 viite.attributes[key] = value
             self.viitteet.append(viite)
+
         
-    def kysy_syotetta(self):
+    def kysy_syotetta(self, tiedosto="viitteet.json"):
         
         inp = ""
         while inp != "exit":
@@ -52,11 +53,11 @@ class Syote:
             if inp == "help":
                 print("Available commands: types / new / list")
         data = {
-            f"viite{i}": {"type": viite.entry_type, **viite.attributes}
+            f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
             for i, viite in enumerate(self.viitteet, start=1)
         }
 
-        with open("viitteet.json", "w", encoding="utf-8") as f:
+        with open(tiedosto, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
 
