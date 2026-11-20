@@ -2,6 +2,7 @@
   "bibtex": {
     "article": {
       "required": [
+        
         "author",
         "title",
         "journal",

@@ -8,6 +8,7 @@ class Reference:
     def __init__(self, entry_type):
         self.entry_type = entry_type.lower()
         self.attributes = {}
+        self.viitekoodi = ""
 
         # Haetaan JSON-määrittely
         json_path = Path(__file__).parent / "bibtex_types.json"
@@ -30,7 +31,7 @@ class Reference:
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
             raise ValueError(
-                f"Unknown BibTeX type: {self.entry_type}"
+                f"Tuntematon BibTeX tyyppi: {self.entry_type}"
             )
 
         definition = self.schema["bibtex"][self.entry_type]
@@ -49,3 +50,9 @@ class Reference:
             raise ValueError(f"Unknown attribute: {key}")
 
         self.attributes[key] = word
+
+    def set_viitekoodi(self,viitekoodi):
+        self.viitekoodi = viitekoodi
+
+    def get_viitekoodi(self):
+        return self.viitekoodi
