@@ -31,7 +31,7 @@ class Reference:
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
             raise ValueError(
-                f"Unknown BibTeX type: {self.entry_type}"
+                f"Tuntematon BibTeX tyyppi: {self.entry_type}"
             )
 
         definition = self.schema["bibtex"][self.entry_type]
@@ -52,7 +52,7 @@ class Reference:
         self.attributes[key] = word
 
     def set_viitekoodi(self,viitekoodi):
-        self.viitekoodi=viitekoodi
+        self.viitekoodi = viitekoodi
 
     def get_viitekoodi(self):
         return self.viitekoodi

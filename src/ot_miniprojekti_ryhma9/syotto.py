@@ -22,13 +22,17 @@ class Syote:
 
             if inp == "new":
                 type = input("Valitse uusi (inproceedings / article / book): ")
-                viite = Reference(type)
+                try:
+                    viite = Reference(type)
+                except ValueError as e:
+                    print(f"Virhe: {e}")
+                    continue
                 viite.set_viitekoodi(input("Viitekoodi: "))
                 for i in viite.attributes:
                     syote = input(i + ": ")
                     viite.set_attribute(i, syote)
+                
                 self.viitteet.append(viite)
-                print(self.viitteet)
 
         data = {f"viite{i}": viite.attributes for i, viite in enumerate(self.viitteet, start=1)}
 

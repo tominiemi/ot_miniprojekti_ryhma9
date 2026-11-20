@@ -8,6 +8,7 @@ class List:
             print(olio.get_viitekoodi())
             for key in olio.attributes:
                 print(key + ": " + str(olio.attributes[key]))
+            print("")
 
         
 
