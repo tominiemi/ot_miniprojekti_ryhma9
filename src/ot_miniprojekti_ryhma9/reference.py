@@ -28,8 +28,36 @@ class Reference:
         if "author" in self.attributes:
             self.attributes["author"] = []
 
-        
 
+    
+    def to_bibtex(self):
+        entry_type = self.entry_type
+
+        if entry_type == "conference":
+            entry_type = "inproceedings"
+
+        result = [f"@{entry_type}{{{self.viitekoodi},"]
+
+        for key, value in self.attributes.items():
+
+        # Ohitetaan tyhjät attribuutit
+            if value is None or value == "" or value == []:
+                continue
+
+        # Author- ja editor-listat BibTeX-muotoon
+            if key in ("author", "editor") and isinstance(value, list):
+                value = " and ".join(value)
+
+            result.append(f"    {key} = {{{value}}},")
+
+    # Poistetaan viimeisen kentän pilkku
+        if len(result) > 1:
+            result[-1] = result[-1].rstrip(",")
+
+        result.append("}")
+
+        return "\n".join(result)
+        
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
             raise ValueError(
