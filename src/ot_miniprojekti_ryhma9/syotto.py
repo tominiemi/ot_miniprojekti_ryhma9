@@ -62,6 +62,36 @@ class Syote:
             elif inp == "types":
                 print("\n")
                 self.listObj.types()
+
+            if inp.startswith("edit"):
+                osat = inp.split(maxsplit=1)
+
+                if len(osat) != 2:
+                    print("Usage: edit [code]")
+                    continue
+
+                viitekoodi = osat[1]
+
+                viite = next(
+                    (v for v in self.viitteet if v.viitekoodi == viitekoodi),
+                    None
+                )
+
+                if viite is None:
+                    print(f"Reference code '{viitekoodi}' not found")
+                    continue
+
+                print(f"\nEdit reference: '{viite.viitekoodi}'")
+                print(f"Type: {viite.entry_type}\n")
+
+                for key, value in viite.attributes.items():
+                    uusi_arvo = input(f"{key} [{value}]: ")
+
+                    if uusi_arvo.strip():
+                        viite.set_attribute(key, uusi_arvo)
+
+                print("\nReference updated")
+
                 print("\n")
             elif inp == "help":
                 print("Available commands: types / new / list / delete / edit / help / exit \n")
