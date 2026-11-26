@@ -10,7 +10,7 @@ def main():
     "new    - Start adding a new citation (new TYPE)\n" \
     "edit   - Edit an existing citaton (edit [reference code])\n"
     "bibtex - Create .bib file from current citations \n" \
-    "delete - Delete a citation (delete MITEN TOIMII?)\n"
+    "delete - Delete a citation by index\n"
     "exit   - Closes and shuts down the application,\n         all additions are automatically saved. \n \n")
 
     s = Syote()

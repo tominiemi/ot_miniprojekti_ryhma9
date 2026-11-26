@@ -35,10 +35,9 @@ class Syote:
 
         inp = ""
         while inp != "exit":
-            inp = input("Give input: ")
+            inp = input("Give input: ").strip()
 
             if inp == "list":
-                print("\n")
                 self.listObj.listaa(self.viitteet)
 
             elif inp == "new":
@@ -49,11 +48,22 @@ class Syote:
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-                viite.set_viitekoodi(input("Reference code for your citation: "))
+                
+                samaKoodi = True
+                while samaKoodi:
+                    samaKoodi = False
+                    inpViite = input("Reference code for your citation: ").strip()
+                    
+                    for v in self.viitteet:
+                        if v.viitekoodi == inpViite:
+                            samaKoodi = True
+                    if samaKoodi:
+                        print("Viitekoodi löytyy jo!")
+                        continue
+                viite.set_viitekoodi(inpViite)
                 for i in viite.attributes:
                     if i == "author":
                         syote = input("Enter author(s) Last name First name, separated by comma:")
-                        print("")
                         authors = syote.split(",")
                         for author in authors:
                             author=author.strip()
@@ -63,12 +73,27 @@ class Syote:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
                 self.unsaved = True
-                
-                    
-
                 self.viitteet.append(viite)
+
+            elif inp == "delete":
+                print("which one to delete? (0 to cancel)")
+                for ind, v in enumerate(self.viitteet):
+                    print(ind+1, ":", v.viitekoodi)
+                delInp = int(input("Number: "))
+                if delInp == 0:
+                    continue
+                if delInp > len(self.viitteet) or delInp < 0:
+                    print("Index not found :(")
+                    continue
+
+                for ind, v in enumerate(self.viitteet):
+                    if delInp == ind+1:
+                        print(v.viitekoodi, " deleted")
+                        self.viitteet.pop(ind)
+                self.unsaved = True
+                print("---------------------------------------")
+
             elif inp == "types":
-                print("\n")
                 self.listObj.types()
 
             elif inp.startswith("edit"):
@@ -97,7 +122,7 @@ class Syote:
 
                     if uusi_arvo.strip():
                         viite.set_attribute(key, uusi_arvo)
-
+                self.unsaved = True
                 print("\nReference updated")
 
                 print("\n")
@@ -120,7 +145,7 @@ class Syote:
                     case "list":
                         print("Gives list of all existing citations\n")
                     case "delete":
-                        print("Delete a citation (delete MISSING INSTRUCTIONS)\n")
+                        print("Delete a citation by giving its index number")
                     case "edit":
                         print("Edit an existing citation (edit [Reference code])\n" \
                         "Asks for info again, type updated info, press enter to move next\n" \
