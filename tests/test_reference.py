@@ -107,11 +107,11 @@ def test_viitekoodi_on_aluksi_tyhja(make_reference):
     assert ref.viitekoodi == ""
 
 
-def test_pakolliset_kentat_alustetaan_none_arvolla(make_reference):
+def test_pakolliset_kentat_alustetaan_oikein(make_reference):
     ref = make_reference("article")
 
     assert ref.attributes == {
-        "author": None,
+        "author": [],
         "title": None,
         "journal": None,
         "year": None,
@@ -123,7 +123,7 @@ def test_vaihtoehtoiset_kentat_lisataan_kaikki(make_reference):
 
     assert ref.attributes == {
         "title": None,
-        "author": None,
+        "author": [],
         "editor": None,
         "publisher": None,
         "year": None,
