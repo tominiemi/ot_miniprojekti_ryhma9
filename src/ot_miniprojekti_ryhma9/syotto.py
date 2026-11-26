@@ -8,6 +8,7 @@ class Syote:
     def __init__(self):
         self.listObj = List()
         self.viitteet = []
+        self.unsaved = False
 
     def lataa_viitteet(self, tiedosto="viitteet.json"):
         if not Path(tiedosto).exists():
@@ -61,6 +62,7 @@ class Syote:
                     else:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
+                self.unsaved = True
                 
                     
 
@@ -130,13 +132,14 @@ class Syote:
                     case "bibtex":
                         print("Creates .bib file from current citations")
 
-        talleennetaanko = input("Do you want to save? (y/n): ")
+        if self.unsaved:
+            talleennetaanko = input("Do you want to save? (y/n): ")
 
-        if talleennetaanko.strip() == "y":
-            data = {
-                f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
-                for i, viite in enumerate(self.viitteet, start=1)
-            }
-            with open(tiedosto, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-        
+            if talleennetaanko.strip() == "y":
+                data = {
+                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
+                    for i, viite in enumerate(self.viitteet, start=1)
+                }
+                with open(tiedosto, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=4, ensure_ascii=False)
+            
