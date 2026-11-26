@@ -24,6 +24,12 @@ class Syote:
                 viite.attributes[key] = value
             self.viitteet.append(viite)
 
+    def tallenna_bib(self, filename="viitteet.bib"):
+        with open(filename, "w", encoding="utf-8") as file:
+            for viite in self.viitteet:
+                file.write(viite.to_bibtex())
+                file.write("\n\n")
+
     def kysy_syotetta(self, tiedosto="viitteet.json"):
 
         inp = ""
@@ -63,7 +69,7 @@ class Syote:
                 print("\n")
                 self.listObj.types()
 
-            if inp.startswith("edit"):
+            elif inp.startswith("edit"):
                 osat = inp.split(maxsplit=1)
 
                 if len(osat) != 2:
@@ -95,7 +101,10 @@ class Syote:
                 print("\n")
             elif inp == "help":
                 print("Available commands: types / new / list / delete / edit / help / exit \n")
-
+            
+            elif inp == "bibtex":
+                self.tallenna_bib()
+                print("BibTeX file created!")
             
         data = {
             f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
