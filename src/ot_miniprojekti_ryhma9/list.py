@@ -13,7 +13,7 @@ class List:
         if not henkilot:
             return ""
 
-        return ", ".join(henkilot)
+        return ", ".join(sorted(henkilot, key=str.casefold))
 
     def muotoile_viite(self, viite):
         a = viite.attributes
