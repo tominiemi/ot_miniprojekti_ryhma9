@@ -5,6 +5,8 @@ from reference import Reference
 class List:
 
     def listaa(self, lista):
+        if len(lista) == 0:
+            return
         print("\nLähteet:\n------------------------------------------")
         for olio in lista:
             print(f"{olio.get_viitekoodi()}: {self.muotoile_viite(olio)}")

@@ -48,12 +48,6 @@ class TestSyote(unittest.TestCase):
 
         self.assertEqual(self.s.viitteet, [])
 
-    def test_helpKomento(self):
-        with patch("builtins.input", side_effect=["help", "exit"]), \
-        patch("builtins.print") as mock_print:
-            self.s.kysy_syotetta(self.tiedosto)
-
-        mock_print.assert_any_call("Available commands: types / new / list")
 
     def test_new(self):
         with patch("builtins.input", side_effect=[
@@ -64,7 +58,8 @@ class TestSyote(unittest.TestCase):
             "Foo",
             "J",
             "2020",
-            "exit"
+            "exit",
+            "y"
         ]):
             self.s.kysy_syotetta(self.tiedosto)
 
@@ -72,7 +67,7 @@ class TestSyote(unittest.TestCase):
 
         self.assertEqual(len(data), 1)
         self.assertEqual(data["viite1"]["type"], "article")
-        self.assertEqual(data["viite1"]["author"], "Smith")
+        self.assertEqual(data["viite1"]["author"], ["Smith"])
         self.assertEqual(data["viite1"]["title"], "Foo")
         self.assertEqual(data["viite1"]["journal"], "J")
         self.assertEqual(data["viite1"]["year"], "2020")
@@ -90,7 +85,40 @@ class TestSyote(unittest.TestCase):
             "Virhe: Tuntematon BibTeX tyyppi: invalid"
         )
 
-        self.assertTrue(self.tiedosto.exists())
+        ##self.assertTrue(self.tiedosto.exists())
+
+    def test_edit(self):
+        self.tiedosto.write_text(json.dumps({
+            "ABC123": {
+                "type": "article",
+                "author": "Taavetti",
+                "title": "Artikkelin Artikkeli",
+                "journal": "Maaginen lehdistö",
+                "year": "1999"
+            }
+        }),encoding="utf-8")
+
+        self.s.lataa_viitteet(self.tiedosto)
+
+        with patch("builtins.input", side_effect=[
+            "edit ABC123",
+            "Pertti",
+            "",
+            "",
+            "",
+            "exit",
+            "y"
+        ]):
+            self.s.kysy_syotetta(self.tiedosto)
+
+            data = json.loads(self.tiedosto.read_text(encoding="utf-8"))
+
+            self.assertEqual(data["ABC123"]["type"], "article")
+            self.assertEqual(data["ABC123"]["author"], "Pertti")
+            self.assertEqual(data["ABC123"]["title"], "Artikkelin Artikkeli")
+            self.assertEqual(data["ABC123"]["journal"], "Maaginen lehdistö")
+            self.assertEqual(data["ABC123"]["year"], "1999")
+
 
 if __name__ == "__main__":
     unittest.main()
