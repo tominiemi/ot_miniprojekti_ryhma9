@@ -102,11 +102,12 @@ class TestSyote(unittest.TestCase):
 
         with patch("builtins.input", side_effect=[
             "edit ABC123",
-            "",
             "Pertti",
             "",
             "",
-            "exit"
+            "",
+            "exit",
+            "y"
         ]):
             self.s.kysy_syotetta(self.tiedosto)
 
@@ -115,7 +116,7 @@ class TestSyote(unittest.TestCase):
             self.assertEqual(data["ABC123"]["type"], "article")
             self.assertEqual(data["ABC123"]["author"], "Pertti")
             self.assertEqual(data["ABC123"]["title"], "Artikkelin Artikkeli")
-            self.assertEqual(data["ABC123"]["Journal"], "Maaginen lehdistö")
+            self.assertEqual(data["ABC123"]["journal"], "Maaginen lehdistö")
             self.assertEqual(data["ABC123"]["year"], "1999")
 
 
