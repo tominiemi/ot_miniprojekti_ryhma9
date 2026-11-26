@@ -71,7 +71,7 @@ class Syote:
                     continue
 
                 viitekoodi = osat[1]
-
+                
                 viite = next(
                     (v for v in self.viitteet if v.viitekoodi == viitekoodi),
                     None
@@ -93,8 +93,31 @@ class Syote:
                 print("\nReference updated")
 
                 print("\n")
-            elif inp == "help":
-                print("Available commands: types / new / list / delete / edit / help / exit \n")
+                
+                
+            elif inp.startswith("help"):
+                osat = inp.split(" ")
+                command = osat[1] if len(osat) > 1 else "Try again!"
+
+                match command:
+                    case "":
+                        print("Available commands: types / new / list\n")
+                    case "help":
+                        print("Lists all available commands, (help [command]) prints specific commands info\n")
+                    case "new":
+                        print("Start adding a new citation (new [type])\n")
+                    case "list":
+                        print("Gives list of all existing citations\n")
+                    case "delete":
+                        print("Delete a citation (delete MISSING INSTRUCTIONS)\n")
+                    case "edit":
+                        print("Edit an existing citation (edit [Reference code])\n" \
+                        "Asks for info again, type updated info, press enter to move next\n" \
+                        "Just press enter, if you dont want to change the field\n")
+                    case "exit":
+                        print("Closes and shuts down the application,\nall additions are automatically saved.\n")
+                    case "types":
+                        print("Gives a list of the available types of citations\n")
 
             
         data = {
