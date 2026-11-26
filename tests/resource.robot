@@ -16,10 +16,16 @@ Syote List
     Input    list
     Run Application
 
-Syote Edit
+Syote Edit All
     [Arguments]    ${viitekoodi}    @{kentat}
     Input    edit ${viitekoodi}
     FOR    ${kentta}    IN    @{kentat}
         Input    ${kentta}
     END
+    Run Application
+
+Syote Edit Single
+    [Arguments]    ${viitekoodi}    ${kentta}    ${uusiarvo}
+    Input    edit ${viitekoodi} ${kentta}
+    Input    ${uusiarvo}
     Run Application
