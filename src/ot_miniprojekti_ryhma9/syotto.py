@@ -28,11 +28,14 @@ class Syote:
 
         inp = ""
         while inp != "exit":
-            inp = input("anna syote: ")
+            inp = input("Give input: ")
 
             if inp == "list":
+                print("\n")
                 self.listObj.listaa(self.viitteet)
 
+            if inp == "new":
+                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
             elif inp == "new":
                 type = input("Valitse uusi (inproceedings / article / book): ")
                 try:
@@ -40,7 +43,7 @@ class Syote:
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-                viite.set_viitekoodi(input("Viitekoodi: "))
+                viite.set_viitekoodi(input("Reference code for your citation: "))
                 for i in viite.attributes:
                     if i == "author":
                         syote = input("Enter author(s) Last name First name, separated by comma:")
@@ -58,6 +61,12 @@ class Syote:
                     viite.set_attribute(i, syote)
 
                 self.viitteet.append(viite)
+            if inp == "types":
+                print("\n")
+                self.listObj.types()
+                print("\n")
+            if inp == "help":
+                print("Available commands: types / new / list / delete / edit / help / exit \n")
 
             elif inp == "types":
                 self.listObj.types()
