@@ -57,7 +57,10 @@ class List:
 
         return result + "."
 
-
+    def listaa_yksi(self, olio):
+        for key in olio.attributes:
+            print(key + ": " + str(olio.attributes[key]))
+        print("")
 
     def types(self):
         json_path = Path(__file__).parent / "bibtex_types.json"

@@ -28,7 +28,7 @@ class Syote:
 
         inp = ""
         while inp != "exit":
-            inp = input("Give input: ")
+            inp = input("\nGive input: ")
 
             if inp == "list":
                 print("\n")
@@ -63,7 +63,7 @@ class Syote:
                 print("\n")
                 self.listObj.types()
 
-            if inp.startswith("edit"):
+            elif inp.startswith("edit"):
                 osat = inp.split(maxsplit=1)
 
                 if len(osat) != 2:
@@ -81,8 +81,10 @@ class Syote:
                     print(f"Reference code '{viitekoodi}' not found")
                     continue
 
-                print(f"\nEdit reference: '{viite.viitekoodi}'")
+                print(f"\nEdit reference:")
+                print(f"Code: '{viite.viitekoodi}'")
                 print(f"Type: {viite.entry_type}\n")
+                self.listObj.listaa_yksi(viite)
 
                 for key, value in viite.attributes.items():
                     uusi_arvo = input(f"{key} [{value}]: ")
@@ -94,7 +96,7 @@ class Syote:
 
                 print("\n")
             elif inp == "help":
-                print("Available commands: types / new / list / delete / edit / help / exit \n")
+                print("Available commands: types / new / list / delete / edit / help / exit")
 
             
         data = {
