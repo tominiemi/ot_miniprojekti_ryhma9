@@ -8,7 +8,8 @@ def main():
     "list   - Gives list of all existing citations\n" \
     "types  - Gives a list of the available types of citations\n"
     "new    - Start adding a new citation (new TYPE)\n" \
-    "edit   - Edit an existing citaton (edit [reference code])\n" \
+    "edit   - Edit an existing citaton (edit [reference code])\n"
+    "bibtex - Create .bib file from current citations \n" \
     "delete - Delete a citation (delete MITEN TOIMII?)\n"
     "exit   - Closes and shuts down the application,\n         all additions are automatically saved. \n \n")
 

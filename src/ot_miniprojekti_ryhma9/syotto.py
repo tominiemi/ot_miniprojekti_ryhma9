@@ -99,15 +99,18 @@ class Syote:
                 print("\nReference updated")
 
                 print("\n")
-                
-                
+
+            elif inp == "bibtex":
+                self.tallenna_bib()
+                print("BibTeX file created!")
+            
             elif inp.startswith("help"):
                 osat = inp.split(" ")
                 command = osat[1] if len(osat) > 1 else "Try again!"
 
                 match command:
                     case "":
-                        print("Available commands: types / new / list\n")
+                        print("Available commands: types / new / list / delete / edit / exit / bibtex\n")
                     case "help":
                         print("Lists all available commands, (help [command]) prints specific commands info\n")
                     case "new":
@@ -124,6 +127,8 @@ class Syote:
                         print("Closes and shuts down the application,\nall additions are automatically saved.\n")
                     case "types":
                         print("Gives a list of the available types of citations\n")
+                    case "bibtex":
+                        print("Creates .bib file from current citations")
 
             
         data = {
