@@ -25,6 +25,8 @@ class Reference:
                     self.attributes[alternative] = None
             else:
                 self.attributes[field] = None
+        if "author" in self.attributes:
+            self.attributes["author"] = []
 
         
 
@@ -56,3 +58,12 @@ class Reference:
 
     def get_viitekoodi(self):
         return self.viitekoodi
+
+    def add_author(self,author):
+        if "author" not in self.attributes:
+            raise ValueError("This reference type does not support authors")
+
+        self.attributes["author"].append(author)
+
+    def get_authors_sorted(self):
+        return sorted(self.attributes["author"])
