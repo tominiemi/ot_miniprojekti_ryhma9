@@ -1,4 +1,3 @@
-
 from list import List
 from reference import Reference
 import json
@@ -25,33 +24,79 @@ class Syote:
                 viite.attributes[key] = value
             self.viitteet.append(viite)
 
-        
     def kysy_syotetta(self, tiedosto="viitteet.json"):
-        
+
         inp = ""
         while inp != "exit":
-            inp = input("anna syote: ")
+            inp = input("Give input: ")
 
             if inp == "list":
+                print("\n")
                 self.listObj.listaa(self.viitteet)
 
-            if inp == "new":
-                type = input("Valitse uusi (inproceedings / article / book): ")
+            elif inp == "new":
+                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
+            
                 try:
                     viite = Reference(type)
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-                viite.set_viitekoodi(input("Viitekoodi: "))
+                viite.set_viitekoodi(input("Reference code for your citation: "))
                 for i in viite.attributes:
-                    syote = input(i + ": ")
-                    viite.set_attribute(i, syote)
+                    if i == "author":
+                        syote = input("Enter author(s) Last name First name, separated by comma:")
+                        print("")
+                        authors = syote.split(",")
+                        for author in authors:
+                            author=author.strip()
+                            if author:
+                                viite.add_author(author)
+                    else:
+                        syote = input(i + ": ")
+                        viite.set_attribute(i, syote)
                 
+                    
+
                 self.viitteet.append(viite)
-            if inp == "types":
+            elif inp == "types":
+                print("\n")
                 self.listObj.types()
-            if inp == "help":
-                print("Available commands: types / new / list")
+
+            if inp.startswith("edit"):
+                osat = inp.split(maxsplit=1)
+
+                if len(osat) != 2:
+                    print("Usage: edit [code]")
+                    continue
+
+                viitekoodi = osat[1]
+
+                viite = next(
+                    (v for v in self.viitteet if v.viitekoodi == viitekoodi),
+                    None
+                )
+
+                if viite is None:
+                    print(f"Reference code '{viitekoodi}' not found")
+                    continue
+
+                print(f"\nEdit reference: '{viite.viitekoodi}'")
+                print(f"Type: {viite.entry_type}\n")
+
+                for key, value in viite.attributes.items():
+                    uusi_arvo = input(f"{key} [{value}]: ")
+
+                    if uusi_arvo.strip():
+                        viite.set_attribute(key, uusi_arvo)
+
+                print("\nReference updated")
+
+                print("\n")
+            elif inp == "help":
+                print("Available commands: types / new / list / delete / edit / help / exit \n")
+
+            
         data = {
             f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
             for i, viite in enumerate(self.viitteet, start=1)
@@ -59,9 +104,3 @@ class Syote:
 
         with open(tiedosto, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-
-
-                
-
-                
-                                
