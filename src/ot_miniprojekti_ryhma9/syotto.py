@@ -34,10 +34,9 @@ class Syote:
                 print("\n")
                 self.listObj.listaa(self.viitteet)
 
-            if inp == "new":
-                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
             elif inp == "new":
-                type = input("Valitse uusi (inproceedings / article / book): ")
+                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
+            
                 try:
                     viite = Reference(type)
                 except ValueError as e:
@@ -57,20 +56,45 @@ class Syote:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
                 
-                    syote = input(i + ": ")
-                    viite.set_attribute(i, syote)
+                    
 
                 self.viitteet.append(viite)
-            if inp == "types":
-                print("\n")
-                self.listObj.types()
-                print("\n")
-            if inp == "help":
-                print("Available commands: types / new / list / delete / edit / help / exit \n")
-
             elif inp == "types":
+                print("\n")
                 self.listObj.types()
 
+            if inp.startswith("edit"):
+                osat = inp.split(maxsplit=1)
+
+                if len(osat) != 2:
+                    print("Usage: edit [code]")
+                    continue
+
+                viitekoodi = osat[1]
+                
+                viite = next(
+                    (v for v in self.viitteet if v.viitekoodi == viitekoodi),
+                    None
+                )
+
+                if viite is None:
+                    print(f"Reference code '{viitekoodi}' not found")
+                    continue
+
+                print(f"\nEdit reference: '{viite.viitekoodi}'")
+                print(f"Type: {viite.entry_type}\n")
+
+                for key, value in viite.attributes.items():
+                    uusi_arvo = input(f"{key} [{value}]: ")
+
+                    if uusi_arvo.strip():
+                        viite.set_attribute(key, uusi_arvo)
+
+                print("\nReference updated")
+
+                print("\n")
+                
+                
             elif inp.startswith("help"):
                 osat = inp.split(" ")
                 command = osat[1] if len(osat) > 1 else "Try again!"
@@ -94,12 +118,8 @@ class Syote:
                         print("Closes and shuts down the application,\nall additions are automatically saved.\n")
                     case "types":
                         print("Gives a list of the available types of citations\n")
-                        
-                    
 
-
-
-                
+            
         data = {
             f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
             for i, viite in enumerate(self.viitteet, start=1)
