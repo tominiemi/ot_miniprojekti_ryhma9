@@ -56,8 +56,7 @@ class Syote:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
                 
-                    syote = input(i + ": ")
-                    viite.set_attribute(i, syote)
+                    
 
                 self.viitteet.append(viite)
             elif inp == "types":
