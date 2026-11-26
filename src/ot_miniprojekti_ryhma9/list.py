@@ -58,8 +58,13 @@ class List:
         return result + "."
 
     def listaa_yksi(self, olio):
-        for key in olio.attributes:
-            print(key + ": " + str(olio.attributes[key]))
+        for key, value in olio.attributes.items():
+
+            if key == "author":
+                value = self.muotoile_henkilot(value)
+
+            print(key + ": " + str(value))
+
         print("")
 
     def types(self):

@@ -87,12 +87,17 @@ class Syote:
                 self.listObj.listaa_yksi(viite)
 
                 for key, value in viite.attributes.items():
+                    if key == "author":
+                        value = ", ".join(value)
+
                     uusi_arvo = input(f"{key} [{value}]: ")
 
                     if uusi_arvo.strip():
-                        viite.set_attribute(key, uusi_arvo)
-
-                print("\nReference updated")
+                        if key == "author":
+                            authors = [author.strip() for author in uusi_arvo.split(",")]
+                            viite.attributes[key] = authors
+                        else:
+                            viite.set_attribute(key, uusi_arvo)
 
                 print("\n")
             elif inp == "help":
