@@ -130,11 +130,13 @@ class Syote:
                     case "bibtex":
                         print("Creates .bib file from current citations")
 
-            
-        data = {
-            f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
-            for i, viite in enumerate(self.viitteet, start=1)
-        }
+        talleennetaanko = input("Do you want to save? (y/n): ")
 
-        with open(tiedosto, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
+        if talleennetaanko.strip() == "y":
+            data = {
+                f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
+                for i, viite in enumerate(self.viitteet, start=1)
+            }
+            with open(tiedosto, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+        
