@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from reference import Reference
+
 class List:
 
     def listaa(self, lista):
@@ -23,6 +24,3 @@ class List:
 
         for name in schema["bibtex"]:
             print(name)
-        
-
-        

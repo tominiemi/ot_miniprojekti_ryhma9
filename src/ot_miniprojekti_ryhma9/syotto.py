@@ -1,4 +1,3 @@
-
 from list import List
 from reference import Reference
 import json
@@ -25,9 +24,8 @@ class Syote:
                 viite.attributes[key] = value
             self.viitteet.append(viite)
 
-        
     def kysy_syotetta(self, tiedosto="viitteet.json"):
-        
+
         inp = ""
         while inp != "exit":
             inp = input("anna syote: ")
@@ -56,6 +54,9 @@ class Syote:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
                 
+                    syote = input(i + ": ")
+                    viite.set_attribute(i, syote)
+
                 self.viitteet.append(viite)
 
             elif inp == "types":
@@ -70,9 +71,3 @@ class Syote:
 
         with open(tiedosto, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-
-
-                
-
-                
-                                
