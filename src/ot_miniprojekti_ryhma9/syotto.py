@@ -33,7 +33,7 @@ class Syote:
             if inp == "list":
                 self.listObj.listaa(self.viitteet)
 
-            if inp == "new":
+            elif inp == "new":
                 type = input("Valitse uusi (inproceedings / article / book): ")
                 try:
                     viite = Reference(type)
@@ -42,13 +42,27 @@ class Syote:
                     continue
                 viite.set_viitekoodi(input("Viitekoodi: "))
                 for i in viite.attributes:
+                    if i == "author":
+                        syote = input("Enter author(s) Last name First name, separated by comma:")
+                        print("")
+                        authors = syote.split(",")
+                        for author in authors:
+                            author=author.strip()
+                            if author:
+                                viite.add_author(author)
+                    else:
+                        syote = input(i + ": ")
+                        viite.set_attribute(i, syote)
+                
                     syote = input(i + ": ")
                     viite.set_attribute(i, syote)
 
                 self.viitteet.append(viite)
-            if inp == "types":
+
+            elif inp == "types":
                 self.listObj.types()
-            if inp == "help":
+
+            elif inp == "help":
                 print("Available commands: types / new / list")
         data = {
             f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
