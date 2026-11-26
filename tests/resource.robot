@@ -2,14 +2,16 @@
 Library  ../src/ot_miniprojekti_ryhma9/AppLibrary.py
 
 *** Keywords ***
-#Input Login Command
-#    Input  login
+Syote New
+    [Arguments]    ${type}    ${viitekoodi}    @{kentat}
+    Input    new
+    Input    ${type}
+    Input    ${viitekoodi}
+    FOR    ${kentta}    IN    @{kentat}
+        Input    ${kentta}
+    END
+    Run Application
 
-#Input Credentials
-#    [Arguments]  ${username}  ${password}
-#    Input  ${username}
-#    Input  ${password}
-#    Run Application
-
-#Input New command
-#    Input  new
+Syote List
+    Input    list
+    Run Application

@@ -1,34 +1,31 @@
-#from stub_io import StubIO
-#from repositories.user_repository import UserRepository
-#from services.user_service import UserService
-#from __init_py import Main
+import io
+import tempfile
+from contextlib import redirect_stdout
+from pathlib import Path
+from unittest.mock import patch
+
+from syotto import Syote
 
 
-#class AppLibrary:
-#    def __init__(self):
-#        self._io = StubIO()
-#        self._user_repository = UserRepository()
-#        self._user_service = UserService(self._user_repository)
-#
-#        self._app = App(
-#            self._user_service,
-#            self._io
-#        )
-#
-#    def input(self, value):
-#        self._io.add_input(value)
-#
-#    def output_should_contain(self, value):
-#        outputs = self._io.outputs
-#
-#        if not value in outputs:
-#            raise AssertionError(
-#                f"Output \"{value}\" is not in {str(outputs)}"
-#            )
-#
-#    def run_application(self):
-#        self._app.run()
-#
-#    def create_user(self, username, password):
-#        self._user_service.create_user(username, password)
-#
+class AppLibrary:
+    def __init__(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self._tiedosto = Path(self._tmp.name) / "testViitteet.json"
+        self._syote = Syote()
+        self._inputs = []
+        self._output = ""
+
+    def input(self, value):
+        self._inputs.append(value)
+
+    def run_application(self):
+        puskuri = io.StringIO()
+        with patch("builtins.input", side_effect=[*self._inputs, "exit"]), \
+             redirect_stdout(puskuri):
+            self._syote.kysy_syotetta(self._tiedosto)
+        self._output = puskuri.getvalue()
+        self._inputs = []
+
+    def output_should_contain(self, value):
+        if value not in self._output:
+            raise AssertionError(f'Output "{value}" is not in {self._output}')

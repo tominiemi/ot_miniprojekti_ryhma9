@@ -4,3 +4,6 @@ uv.lock
 .coverage
 htmlcov
 viitteet.json
+log.html
+output.xml
+report.html
