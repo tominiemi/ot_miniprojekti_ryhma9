@@ -15,3 +15,11 @@ Syote New
 Syote List
     Input    list
     Run Application
+
+Syote Edit
+    [Arguments]    ${viitekoodi}    @{kentat}
+    Input    edit ${viitekoodi}
+    FOR    ${kentta}    IN    @{kentat}
+        Input    ${kentta}
+    END
+    Run Application
