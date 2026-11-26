@@ -92,5 +92,37 @@ class TestSyote(unittest.TestCase):
 
         self.assertTrue(self.tiedosto.exists())
 
+    def test_edit(self):
+        self.tiedosto.write_text(json.dumps({
+            "ABC123": {
+                "type": "article",
+                "author": "Taavetti",
+                "title": "Artikkelin Artikkeli",
+                "journal": "Maaginen lehdistö",
+                "year": "1999"
+            }
+        }),encoding="utf-8")
+
+        self.s.lataa_viitteet(self.tiedosto)
+
+        with patch("builtins.input", side_effect=[
+            "edit ABC123",
+            "",
+            "Pertti",
+            "",
+            "",
+            "exit"
+        ]):
+            self.s.kysy_syotetta(self.tiedosto)
+
+            data = json.loads(self.tiedosto.read_text(encoding="utf-8"))
+
+            self.assertEqual(data["ABC123"]["type"], "article")
+            self.assertEqual(data["ABC123"]["author"], "Pertti")
+            self.assertEqual(data["ABC123"]["title"], "Artikkelin Artikkeli")
+            self.assertEqual(data["ABC123"]["Journal"], "Maaginen lehdistö")
+            self.assertEqual(data["ABC123"]["year"], "1999")
+
+
 if __name__ == "__main__":
     unittest.main()
