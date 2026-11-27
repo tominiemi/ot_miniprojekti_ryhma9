@@ -89,11 +89,11 @@ class List:
         else:
             
             for tagi in tagi_lista:
-                print("Citations tagged with ",tagi,":\n")
+                print("Citations tagged with ",tagi,":")
                 for viite in lista:
                     if tagi in viite.get_tags():
                         print(f"{viite.get_viitekoodi()}: {self.muotoile_viite(viite)}")
-
+                print("")
 
     def listaa_yksi(self, olio):
         for key, value in olio.attributes.items():

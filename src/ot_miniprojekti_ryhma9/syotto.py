@@ -56,8 +56,9 @@ class Syote:
                     case "":
                         self.list_obj.listaa(self.viitteet)
                     case "tags":
+                        print("---------------------------------------")
                         self.list_obj.listaa_tagit(self.viitteet)
-
+                        print("---------------------------------------")
             elif inp.startswith("new"):
                 cancelled = False 
                 
@@ -243,7 +244,7 @@ class Syote:
                     case "new":
                         print("Start adding a new citation (new [type])\n")
                     case "list":
-                        print("Gives list of all existing citations\n")
+                        print("Gives list of all existing citations\nlist tags lists tags and citations tagged with them")
                     case "delete":
                         print("Delete a citation by giving its index number")
                     case "edit":
@@ -256,8 +257,13 @@ class Syote:
                         print("Gives a list of the available types of citations\n")
                     case "bibtex":
                         print("Creates .bib file from current citations")
+                    case "tag":
+                        print("Group citations by category by giving them a tag. (tag [code] [name] )")
                     case _:
                         print("Try again, no such command found!")
+            elif inp == "save":
+                
+                print("saved")
 
         if self.unsaved:
             talleennetaanko = input("Do you want to save? (y/n): ")
