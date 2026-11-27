@@ -22,6 +22,7 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "coverage>=7.17.3",
+    "robotframework>=7.5.1",
 ]
 
 [tool.coverage.run]
