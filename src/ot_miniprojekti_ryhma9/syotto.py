@@ -185,7 +185,7 @@ class Syote:
                 attribuutti = osat[2] if len(osat) == 3 else None
 
                 if attribuutti and attribuutti not in viite.attributes:
-                    print("Attribute '{attribuutti}' not found")
+                    print(f"Attribute '{attribuutti}' not found")
                     continue
 
                 print(f"\nEdit reference:")
