@@ -29,3 +29,8 @@ Syote Edit Single
     Input    edit ${viitekoodi} ${kentta}
     Input    ${uusiarvo}
     Run Application
+
+Syote Delete
+    [Arguments]    ${viitekoodi}
+    Input    delete ${viitekoodi}
+    Run Application

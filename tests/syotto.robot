@@ -2,7 +2,7 @@
 Resource  resource.robot
 
 *** Test Cases ***
-Syote With Multiple Authors
+Syote With Multiple Authors Alphabetically
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
@@ -11,11 +11,10 @@ Syote Edit
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
-    Syote Edit All   Martin09    Pasi, Antti    ${empty}    ${empty}    ${empty}    ${empty}    
+    Syote Edit All   Martin09    Pasi, Antti    ${EMPTY}    ${EMPTY}    ${EMPTY}    ${EMPTY}    
     Syote List
     Output Should Contain    Martin09: Antti, Pasi (2008). Clean Code. Prentice Hall.
 
-#Edit yksittäinen asia
 Syote Edit Single Field
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
@@ -24,7 +23,13 @@ Syote Edit Single Field
     Syote List
     Output Should Contain    Martin09: Antti, Pasi (1923). Clean Code. Prentice Hall.
 
+Syote Delete
+    Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
+    Syote List
+    Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
+    Syote Delete    Martin09
+    Syote Should Contain    ${EMPTY}
+
 
 #Syote delete
-#List aakkosjärjestys
 #Help komento testi
