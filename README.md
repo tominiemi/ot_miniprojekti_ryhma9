@@ -32,5 +32,10 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
 - Suorita ohjelma komennolla `uv run python src/ot_miniprojekti_ryhma9/__init__.py`
 - Aja ohjelmaa komennoilla `new` ja `list`
 
+### Releasen asennus
+
+- Aja komento ```uv tool install https://github.com/tominiemi/ot_miniprojekti_ryhma9/releases/download/v0.1.0/ot_miniprojekti_ryhma9-0.1.0-py3-none-any.whl```
+- käynnistä sovellus komennolla ```ref```
+
 ## Lisenssi
 Julkaistu MIT-lisenssillä. Katso lisätietoja tiedostosta [`LICENSE`](LICENSE).
