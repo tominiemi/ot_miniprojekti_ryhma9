@@ -10,7 +10,7 @@ sys.path.insert(
 )
 
 import pytest
-from reference import Reference
+from ot_miniprojekti_ryhma9.reference import Reference
 
 
 
@@ -97,7 +97,7 @@ def make_reference():
     """Luo Reference-olion ilman oikeaa JSON-tiedostoa."""
     def _make(entry_type):
         with patch(
-            "reference.open",
+            "ot_miniprojekti_ryhma9.reference.open",
             mock_open(read_data=json.dumps(TEST_SCHEMA)),
             create=True,
         ):
@@ -151,7 +151,7 @@ def test_skeema_ladataan_tiedostosta(make_reference):
 def test_oikea_json_tiedosto_ladataan_polusta():
     m = mock_open(read_data=json.dumps(TEST_SCHEMA))
 
-    with patch("reference.open", m, create=True):
+    with patch("ot_miniprojekti_ryhma9.reference.open", m, create=True):
         Reference("article")
 
     path = m.call_args.args[0]

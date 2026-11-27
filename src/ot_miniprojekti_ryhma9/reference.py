@@ -30,7 +30,7 @@ class Reference:
             self.attributes["author"] = []
 
 
-    
+
     def to_bibtex(self):
         entry_type = self.entry_type
 
@@ -58,7 +58,7 @@ class Reference:
         result.append("}")
 
         return "\n".join(result)
-        
+
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
             raise ValueError(

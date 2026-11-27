@@ -1,12 +1,12 @@
-from list import List
-from reference import Reference
 import json
 from pathlib import Path
+from .list import List
+from .reference import Reference
 
 class Syote:
 
     def __init__(self):
-        self.listObj = List()
+        self.list_obj = List()
         self.viitteet = []
         self.unsaved = False
 
@@ -72,7 +72,7 @@ class Syote:
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
-                viite.set_viitekoodi(inpViite)
+                viite.set_viitekoodi(inp_viite)
                 for i in viite.attributes:
                     if i == "author":
                         syote = input("Enter author(s) Last name First name, separated by comma:")
@@ -106,7 +106,7 @@ class Syote:
                 print("---------------------------------------")
 
             elif inp == "types":
-                self.listObj.types()
+                self.list_obj.types()
 
             elif inp.startswith("edit"):
                 osat = inp.split()
@@ -117,7 +117,7 @@ class Syote:
                     continue
 
                 viitekoodi = osat[1]
-                
+
                 viite = next(
                     (v for v in self.viitteet if v.viitekoodi == viitekoodi),
                     None
@@ -130,15 +130,15 @@ class Syote:
                 attribuutti = osat[2] if len(osat) == 3 else None
 
                 if attribuutti and attribuutti not in viite.attributes:
-                    print(f"Attribute '{attribuutti}' not found")
+                    print("Attribute '{attribuutti}' not found")
                     continue
 
                 print(f"\nEdit reference:")
                 print(f"Code: '{viite.viitekoodi}'")
                 print(f"Type: {viite.entry_type}\n")
-                self.listObj.listaa_yksi(viite)
+                self.list_obj.listaa_yksi(viite)
 
-                if (attribuutti):
+                if attribuutti:
                     muokattavat = {attribuutti: viite.attributes[attribuutti]}
                 else:
                     muokattavat = viite.attributes
@@ -181,7 +181,7 @@ class Syote:
             elif inp == "bibtex":
                 self.tallenna_bib()
                 print("BibTeX file created!")
-            
+
             elif inp.startswith("help"):
                 osat = inp.split(" ")
                 command = osat[1] if len(osat) > 1 else ""
@@ -220,4 +220,3 @@ class Syote:
                 }
                 with open(tiedosto, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
-            
