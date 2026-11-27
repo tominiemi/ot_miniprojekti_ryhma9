@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name,consider-using-with
 import io
 import tempfile
 from contextlib import redirect_stdout

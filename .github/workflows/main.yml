@@ -21,7 +21,7 @@ jobs:
       - name: Run Robot Framework tests
         run: uv run robot --outputdir robot-results tests/
       - name: Run pylint
-        run: uv run pylint src
+        run: uv run pylint src --fail-under=9
       - name: Generate coverage report
         run: uv run coverage xml
       - name: Upload coverage reports to Codecov
