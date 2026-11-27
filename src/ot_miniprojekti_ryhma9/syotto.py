@@ -1,5 +1,5 @@
-from list import List
-from reference import Reference
+from .list import List
+from .reference import Reference
 import json
 from pathlib import Path
 
