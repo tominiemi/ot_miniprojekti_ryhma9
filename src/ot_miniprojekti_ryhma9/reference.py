@@ -97,8 +97,9 @@ class Reference:
     def get_authors_sorted(self):
         return sorted(self.attributes["author"])
 
-    def set_tag(self,tag):
-        self.tagit.append(tag)
+    def set_tag(self, tag):
+        if tag not in self.tagit:
+            self.tagit.append(tag)
 
     def get_tags(self):
         return self.tagit

@@ -21,6 +21,8 @@ class Syote:
             tiedot = dict(tiedot)
             viite = Reference(tiedot.pop("type"))
             viite.viitekoodi = koodi
+            tagit = tiedot.pop("tags", [])
+            viite.tagit = tagit
             for key, value in tiedot.items():
                 viite.attributes[key] = value
             self.viitteet.append(viite)
@@ -167,6 +169,7 @@ class Syote:
                 for viite in self.viitteet:
                     if viite.get_viitekoodi()==viitekoodi:
                         viite.set_tag(tagi)
+                        self.unsaved = True
                         print("Tag: ",tagi," set for citation: ",viite.get_viitekoodi())
                 
                 
@@ -212,7 +215,7 @@ class Syote:
 
             if talleennetaanko.strip() == "y":
                 data = {
-                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
+                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes,"tags":viite.get_tags()}
                     for i, viite in enumerate(self.viitteet, start=1)
                 }
                 with open(tiedosto, "w", encoding="utf-8") as f:
