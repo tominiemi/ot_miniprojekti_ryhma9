@@ -133,7 +133,7 @@ class Syote:
             
             elif inp.startswith("help"):
                 osat = inp.split(" ")
-                command = osat[1] if len(osat) > 1 else "Try again!"
+                command = osat[1] if len(osat) > 1 else ""
 
                 match command:
                     case "":
@@ -156,6 +156,8 @@ class Syote:
                         print("Gives a list of the available types of citations\n")
                     case "bibtex":
                         print("Creates .bib file from current citations")
+                    case _:
+                        print("Try again, no such command found!")
 
         if self.unsaved:
             talleennetaanko = input("Do you want to save? (y/n): ")
