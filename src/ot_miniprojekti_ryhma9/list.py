@@ -1,13 +1,13 @@
 import json
 from pathlib import Path
-from .reference import Reference
+from reference import Reference
 
 class List:
 
     def listaa(self, lista):
         if len(lista) == 0:
             return
-        print("\nLähteet:\n------------------------------------------")
+        print("\nReferences:\n------------------------------------------")
         for olio in lista:
             print(f"{olio.get_viitekoodi()}: {self.muotoile_viite(olio)}")
         print("------------------------------------------\n")
@@ -61,15 +61,7 @@ class List:
 
         return result + "."
 
-    def listaa_yksi(self, olio):
-        for key, value in olio.attributes.items():
 
-            if key == "author":
-                value = self.muotoile_henkilot(value)
-
-            print(key + ": " + str(value))
-
-        print("")
 
     def types(self):
         print("\n--------------------------------")
@@ -81,3 +73,28 @@ class List:
         for name in schema["bibtex"]:
             print(name)
         print("--------------------------------\n")
+
+    def listaa_tagit(self,lista):
+        tagi_lista=[]
+        for viite in lista:
+            if not viite.get_tags:
+                continue
+            else:
+                for tagi in viite.get_tags:
+                    if tagi in tagi_lista:
+                        continue
+                    else:
+                        tagi_lista.append(tagi)
+        if not tagi_lista:
+            print("No tags have been added to any citations.")
+        else:
+            
+            for tagi in tagi_lista:
+                print("Citations tagged with ",tagi,":")
+                for viite in lista:
+                    if tagi in viite.get_tags():
+                        print(f"{viite.get_viitekoodi()}: {self.muotoile_viite(viite)}")
+
+
+                
+                        

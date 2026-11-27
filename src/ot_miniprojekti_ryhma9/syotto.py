@@ -1,5 +1,5 @@
-from .list import List
-from .reference import Reference
+from list import List
+from reference import Reference
 import json
 from pathlib import Path
 
@@ -37,22 +37,27 @@ class Syote:
         while inp != "exit":
             inp = input("Give input: ").strip()
 
-            if inp == "list":
-                self.listObj.listaa(self.viitteet)
+            if inp.startswith("list") :
+                osat = inp.split()
+                command = osat[1]
+                match command:
+                    case "":
+                        self.listObj.listaa(self.viitteet)
+                    case "tags":
+                        self.listObj.listaa_tagit(self.viitteet)
 
-            elif inp.startswith("new"):
-                osat = inp.split(" ")
-                tyyppi = osat[1] if len(osat) > 1 else ""
 
-                if tyyppi == "":
-                        tyyppi = input("Choose type for new citation (E.g inproceedings / article / book): ").strip()
-                    
+                
+
+            elif inp == "new":
+                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
+            
                 try:
-                    viite = Reference(tyyppi)
+                    viite = Reference(type)
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-                        
+                
                 samaKoodi = True
                 while samaKoodi:
                     samaKoodi = False
@@ -61,7 +66,6 @@ class Syote:
                     for v in self.viitteet:
                         if v.viitekoodi == inpViite:
                             samaKoodi = True
-                            break
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
@@ -78,48 +82,25 @@ class Syote:
                         syote = input(i + ": ")
                         viite.set_attribute(i, syote)
                 self.unsaved = True
-                self.viitteet.append(viite) 
-           
-            elif inp.startswith("delete"):
-                osat = inp.split(" ")
-                poistettava = osat[1] if len(osat) > 1 else ""
+                self.viitteet.append(viite)
 
-                match poistettava:
-                    case "":
-                        print("which one to delete? (0 to cancel)")
-                        for ind, v in enumerate(self.viitteet):
-                            print(ind+1, ":", v.viitekoodi)
-                        try:
-                        
-                            delInp = int(input("Number: "))
-                            if delInp == 0:
-                                continue
-                            if delInp > len(self.viitteet) or delInp < 0:
-                                print("Index not found :(")
-                                continue
+            elif inp == "delete":
+                print("which one to delete? (0 to cancel)")
+                for ind, v in enumerate(self.viitteet):
+                    print(ind+1, ":", v.viitekoodi)
+                delInp = int(input("Number: "))
+                if delInp == 0:
+                    continue
+                if delInp > len(self.viitteet) or delInp < 0:
+                    print("Index not found :(")
+                    continue
 
-                            for ind, v in enumerate(self.viitteet):
-                                if delInp == ind+1:
-                                    print(v.viitekoodi, " deleted")
-                                    self.viitteet.pop(ind)
-                            self.unsaved = True
-                            print("---------------------------------------")
-                        except ValueError:
-                            print("No number given, or it was faulty, no citation was deleted")
-                    case _:
-                        poistettu = False
-
-                        for ind, v in enumerate(self.viitteet):
-                            if poistettava == v.viitekoodi:
-                                self.viitteet.pop(ind)
-                                self.unsaved = True
-                                poistettu = True
-                                print(v.viitekoodi, " deleted")
-
-                        if not poistettu:
-                            print("Reference code doesnt refer to an existing citation, nothing was deleted.")
-
-                                         
+                for ind, v in enumerate(self.viitteet):
+                    if delInp == ind+1:
+                        print(v.viitekoodi, " deleted")
+                        self.viitteet.pop(ind)
+                self.unsaved = True
+                print("---------------------------------------")
 
             elif inp == "types":
                 self.listObj.types()
