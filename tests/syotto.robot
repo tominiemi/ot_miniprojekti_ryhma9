@@ -31,4 +31,10 @@ Syote Delete
     Syote Delete    Martin09
     Output Should Contain    ${EMPTY}
 
-#Help komento testi
+Syote Help
+    Syote Help
+    Output Should Contain    Available commands: types / new / list / delete / edit / help / exit
+    Syote Help    new
+    Output Should Contain    Start adding a new citation (new [type])
+    Syote Help    bibtex
+    Output Should Contain    Creates .bib file from current citations

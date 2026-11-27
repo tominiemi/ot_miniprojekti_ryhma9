@@ -34,3 +34,8 @@ Syote Delete
     [Arguments]    ${viitekoodi}
     Input    delete ${viitekoodi}
     Run Application
+
+Syote Help
+    [Arguments]    ${kentta}=${EMPTY}
+    Input    help ${kentta}
+    Run Application
