@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from reference import Reference
+from .reference import Reference
 
 class List:
 
