@@ -20,8 +20,9 @@ Syote Edit Single Field
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
     Syote Edit Single   Martin09    year    1923
+    Output Should Contain    Reference updated
     Syote List
-    Output Should Contain    Martin09: Antti, Pasi (1923). Clean Code. Prentice Hall.
+    Output Should Contain    Martin09: Martin, Robert (1923). Clean Code. Prentice Hall.
 
 Syote Delete
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
