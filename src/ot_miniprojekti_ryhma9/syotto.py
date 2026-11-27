@@ -97,10 +97,11 @@ class Syote:
                 self.listObj.types()
 
             elif inp.startswith("edit"):
-                osat = inp.split(maxsplit=1)
+                osat = inp.split()
+                #osat = inp.split(maxsplit=1)
 
-                if len(osat) != 2:
-                    print("Usage: edit [code]")
+                if len(osat) < 2 or len(osat) > 3:
+                    print("Usage: edit [code] or edit [code] [attribute]")
                     continue
 
                 viitekoodi = osat[1]
@@ -114,18 +115,39 @@ class Syote:
                     print(f"Reference code '{viitekoodi}' not found")
                     continue
 
-                print(f"\nEdit reference: '{viite.viitekoodi}'")
-                print(f"Type: {viite.entry_type}\n")
+                attribuutti = osat[2] if len(osat) == 3 else None
 
-                for key, value in viite.attributes.items():
+                if attribuutti and attribuutti not in viite.attributes:
+                    print(f"Attribute '{attribuutti}' not found")
+                    continue
+
+                print(f"\nEdit reference:")
+                print(f"Code: '{viite.viitekoodi}'")
+                print(f"Type: {viite.entry_type}\n")
+                self.listObj.listaa_yksi(viite)
+
+                if (attribuutti):
+                    muokattavat = {attribuutti: viite.attributes[attribuutti]}
+                else:
+                    muokattavat = viite.attributes
+
+                for key, value in muokattavat.items():
+                    if key == "author":
+                        value = ", ".join(value)
+
                     uusi_arvo = input(f"{key} [{value}]: ")
 
                     if uusi_arvo.strip():
-                        viite.set_attribute(key, uusi_arvo)
+                        if key == "author":
+                            authors = [author.strip() for author in uusi_arvo.split(",")]
+                            viite.attributes[key] = authors
+                        else:
+                            viite.set_attribute(key, uusi_arvo)
+
                 self.unsaved = True
                 print("\nReference updated")
-
-                print("\n")
+            elif inp == "help":
+                print("Available commands: types / new / list / delete / edit / help / exit")
 
             elif inp == "bibtex":
                 self.tallenna_bib()
@@ -133,7 +155,7 @@ class Syote:
             
             elif inp.startswith("help"):
                 osat = inp.split(" ")
-                command = osat[1] if len(osat) > 1 else "Try again!"
+                command = osat[1] if len(osat) > 1 else ""
 
                 match command:
                     case "":
@@ -156,6 +178,8 @@ class Syote:
                         print("Gives a list of the available types of citations\n")
                     case "bibtex":
                         print("Creates .bib file from current citations")
+                    case _:
+                        print("Try again, no such command found!")
 
         if self.unsaved:
             talleennetaanko = input("Do you want to save? (y/n): ")
