@@ -11,8 +11,19 @@ sys.path.insert(
 )
 
 from ot_miniprojekti_ryhma9.syotto import Syote
+from ot_miniprojekti_ryhma9.reference import Reference
 
 class TestSyote(unittest.TestCase):
+
+    def luo_testiviite(self, koodi="ABC123"):
+        viite = Reference("article")
+        viite.set_viitekoodi(koodi)
+        viite.add_author("Taavetti")
+        viite.set_attribute("title", "Testiartikkeli")
+        viite.set_attribute("journal", "Testilehti")
+        viite.set_attribute("year", "2025")
+        self.s.viitteet.append(viite)
+        return viite
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -118,7 +129,67 @@ class TestSyote(unittest.TestCase):
             self.assertEqual(data["ABC123"]["title"], "Artikkelin Artikkeli")
             self.assertEqual(data["ABC123"]["journal"], "Maaginen lehdistö")
             self.assertEqual(data["ABC123"]["year"], "1999")
+    
+    def test_edit_yksittainen_attribuutti(self):
+        self.luo_testiviite()
 
+        with patch("builtins.input", side_effect=[
+            "edit ABC123 title",
+            "Uusi otsikko",
+            "exit",
+            "y"
+        ]):
+            self.s.kysy_syotetta(self.tiedosto)
+
+        data = json.loads(self.tiedosto.read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            data["ABC123"]["title"],
+            "Uusi otsikko"
+        )
+
+        self.assertEqual(
+            data["ABC123"]["author"],
+            ["Taavetti"]
+        )
+
+    def test_edit_tuntematon_viitekoodi(self):
+        with patch("builtins.input", side_effect=[
+            "edit EI_OLE",
+            "exit"
+        ]):
+            with patch("builtins.print") as mock_print:
+                self.s.kysy_syotetta(self.tiedosto)
+
+        mock_print.assert_any_call(
+            "Reference code 'EI_OLE' not found"
+        )
+
+    def test_edit_tuntematon_attribuutti(self):
+        self.luo_testiviite()
+
+        with patch("builtins.input", side_effect=[
+            "edit ABC123 tuntematon",
+            "exit"
+        ]):
+            with patch("builtins.print") as mock_print:
+                self.s.kysy_syotetta(self.tiedosto)
+
+        mock_print.assert_any_call(
+            "Attribute 'tuntematon' not found"
+        )
+
+    def test_edit_virheellinen_kaytto(self):
+        with patch("builtins.input", side_effect=[
+            "edit",
+            "exit"
+        ]):
+            with patch("builtins.print") as mock_print:
+                self.s.kysy_syotetta(self.tiedosto)
+
+        mock_print.assert_any_call(
+            "Usage: edit [code] or edit [code] [attribute]"
+        )
 
 if __name__ == "__main__":
     unittest.main()
