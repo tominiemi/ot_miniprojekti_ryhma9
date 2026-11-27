@@ -77,10 +77,10 @@ class List:
     def listaa_tagit(self,lista):
         tagi_lista=[]
         for viite in lista:
-            if not viite.get_tags:
+            if not viite.get_tags():
                 continue
             else:
-                for tagi in viite.get_tags:
+                for tagi in viite.get_tags():
                     if tagi in tagi_lista:
                         continue
                     else:
@@ -90,7 +90,7 @@ class List:
         else:
             
             for tagi in tagi_lista:
-                print("Citations tagged with ",tagi,":")
+                print("Citations tagged with ",tagi,":\n")
                 for viite in lista:
                     if tagi in viite.get_tags():
                         print(f"{viite.get_viitekoodi()}: {self.muotoile_viite(viite)}")

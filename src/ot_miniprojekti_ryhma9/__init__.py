@@ -1,4 +1,4 @@
-from .syotto import Syote
+from syotto import Syote
 
 def main():
     print("LaTeX-based citation application!\n \n" \

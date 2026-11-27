@@ -39,7 +39,8 @@ class Syote:
 
             if inp.startswith("list") :
                 osat = inp.split()
-                command = osat[1]
+                command = osat[1] if len(osat) > 1 else ""
+                
                 match command:
                     case "":
                         self.listObj.listaa(self.viitteet)
