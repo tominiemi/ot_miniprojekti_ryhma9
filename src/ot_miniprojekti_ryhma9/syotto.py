@@ -21,6 +21,8 @@ class Syote:
             tiedot = dict(tiedot)
             viite = Reference(tiedot.pop("type"))
             viite.viitekoodi = koodi
+            tagit = tiedot.pop("tags", [])
+            viite.tagit = tagit
             for key, value in tiedot.items():
                 viite.attributes[key] = value
             self.viitteet.append(viite)
@@ -37,34 +39,37 @@ class Syote:
         while inp != "exit":
             inp = input("Give input: ").strip()
 
-            if inp == "list":
-                self.list_obj.listaa(self.viitteet)
+            if inp.startswith("list") :
+                osat = inp.split()
+                command = osat[1] if len(osat) > 1 else ""
+                
+                match command:
+                    case "":
+                        self.listObj.listaa(self.viitteet)
+                    case "tags":
+                        self.listObj.listaa_tagit(self.viitteet)
 
-            elif inp.startswith("new"):
-                osat = inp.split(" ")
-                tyyppi = osat[1] if len(osat) > 1 else ""
 
-                if tyyppi == "":
-                    tyyppi = input(
-                        "Choose type for new citation (E.g inproceedings / article / book): "
-                        ).strip()
+                
 
+            elif inp == "new":
+                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
+            
                 try:
-                    viite = Reference(tyyppi)
+                    viite = Reference(type)
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-
-                sama_koodi = True
-                while sama_koodi:
-                    sama_koodi = False
-                    inp_viite = input("Reference code for your citation: ").strip()
-
+                
+                samaKoodi = True
+                while samaKoodi:
+                    samaKoodi = False
+                    inpViite = input("Reference code for your citation: ").strip()
+                    
                     for v in self.viitteet:
-                        if v.viitekoodi == inp_viite:
-                            sama_koodi = True
-                            break
-                    if sama_koodi:
+                        if v.viitekoodi == inpViite:
+                            samaKoodi = True
+                    if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
                 viite.set_viitekoodi(inp_viite)
@@ -82,46 +87,23 @@ class Syote:
                 self.unsaved = True
                 self.viitteet.append(viite)
 
-            elif inp.startswith("delete"):
-                osat = inp.split(" ")
-                poistettava = osat[1] if len(osat) > 1 else ""
+            elif inp == "delete":
+                print("which one to delete? (0 to cancel)")
+                for ind, v in enumerate(self.viitteet):
+                    print(ind+1, ":", v.viitekoodi)
+                delInp = int(input("Number: "))
+                if delInp == 0:
+                    continue
+                if delInp > len(self.viitteet) or delInp < 0:
+                    print("Index not found :(")
+                    continue
 
-                match poistettava:
-                    case "":
-                        print("which one to delete? (0 to cancel)")
-                        for ind, v in enumerate(self.viitteet):
-                            print(ind+1, ":", v.viitekoodi)
-                        try:
-
-                            del_inp = int(input("Number: "))
-                            if del_inp == 0:
-                                continue
-                            if del_inp > len(self.viitteet) or del_inp < 0:
-                                print("Index not found :(")
-                                continue
-
-                            for ind, v in enumerate(self.viitteet):
-                                if del_inp == ind+1:
-                                    print(v.viitekoodi, " deleted")
-                                    self.viitteet.pop(ind)
-                            self.unsaved = True
-                            print("---------------------------------------")
-                        except ValueError:
-                            print("No number given, or it was faulty, no citation was deleted")
-                    case _:
-                        poistettu = False
-
-                        for ind, v in enumerate(self.viitteet):
-                            if poistettava == v.viitekoodi:
-                                self.viitteet.pop(ind)
-                                self.unsaved = True
-                                poistettu = True
-                                print(v.viitekoodi, " deleted")
-
-                        if not poistettu:
-                            print("Reference code doesnt refer to an existing citation, nothing was deleted.")
-
-
+                for ind, v in enumerate(self.viitteet):
+                    if delInp == ind+1:
+                        print(v.viitekoodi, " deleted")
+                        self.viitteet.pop(ind)
+                self.unsaved = True
+                print("---------------------------------------")
 
             elif inp == "types":
                 self.list_obj.types()
@@ -176,6 +158,23 @@ class Syote:
 
                 self.unsaved = True
                 print("\nReference updated")
+
+            elif inp.startswith("tag"):
+                osat = inp.split()
+                if len(osat) != 3:
+                    print("Usage: tag [code] [tag]")
+                    continue
+                viitekoodi = osat[1]
+                tagi = osat[2]
+                for viite in self.viitteet:
+                    if viite.get_viitekoodi()==viitekoodi:
+                        viite.set_tag(tagi)
+                        self.unsaved = True
+                        print("Tag: ",tagi," set for citation: ",viite.get_viitekoodi())
+                
+                
+
+            
             elif inp == "help":
                 print("Available commands: types / new / list / delete / edit / help / exit")
 
@@ -216,7 +215,7 @@ class Syote:
 
             if talleennetaanko.strip() == "y":
                 data = {
-                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
+                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes,"tags":viite.get_tags()}
                     for i, viite in enumerate(self.viitteet, start=1)
                 }
                 with open(tiedosto, "w", encoding="utf-8") as f:
