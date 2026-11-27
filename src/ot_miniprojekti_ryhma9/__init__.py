@@ -12,6 +12,7 @@ def main():
     "edit      - Edit an existing citaton (edit [reference code])\n"
     "bibtex    - Create .bib file from current citations \n" \
     "delete    - Delete a citation by index\n"
+    "save    - Save current modifications\n"
     "exit      - Closes and shuts down the application,\n         all additions are automatically saved. \n \n")
 
     s = Syote()

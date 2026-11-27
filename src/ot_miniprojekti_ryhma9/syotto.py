@@ -10,6 +10,15 @@ class Syote:
         self.viitteet = []
         self.unsaved = False
 
+    def tallenna(self, tiedosto="viitteet.json"):
+        data = {
+            viite.viitekoodi: {"type": viite.entry_type, **viite.attributes, "tags": viite.get_tags()}
+            for viite in self.viitteet
+        }
+        with open(tiedosto, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+        self.unsaved = False
+
     def lataa_viitteet(self, tiedosto="viitteet.json"):
         if not Path(tiedosto).exists():
             return
@@ -259,19 +268,25 @@ class Syote:
                         print("Creates .bib file from current citations")
                     case "tag":
                         print("Group citations by category by giving them a tag. (tag [code] [name] )")
+                    case "save":
+                        print("save current modifications")
                     case _:
                         print("Try again, no such command found!")
+
             elif inp == "save":
+                self.tallenna(tiedosto)
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   Changes saved!   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")                
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
                 
-                print("saved")
 
         if self.unsaved:
             talleennetaanko = input("Do you want to save? (y/n): ")
 
             if talleennetaanko.strip() == "y":
-                data = {
-                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes,"tags":viite.get_tags()}
-                    for i, viite in enumerate(self.viitteet, start=1)
-                }
-                with open(tiedosto, "w", encoding="utf-8") as f:
-                    json.dump(data, f, indent=4, ensure_ascii=False)
+                self.tallenna(tiedosto)
+
+
