@@ -1,4 +1,4 @@
-from syotto import Syote
+from ot_miniprojekti_ryhma9.syotto import Syote
 
 def main():
     print("LaTeX-based citation application!\n \n" \

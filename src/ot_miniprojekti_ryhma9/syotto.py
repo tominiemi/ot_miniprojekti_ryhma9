@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
-from .list import List
-from .reference import Reference
+from ot_miniprojekti_ryhma9.list import List
+from ot_miniprojekti_ryhma9.reference import Reference
 
 class Syote:
 
@@ -45,9 +45,9 @@ class Syote:
                 
                 match command:
                     case "":
-                        self.listObj.listaa(self.viitteet)
+                        self.list_obj.listaa(self.viitteet)
                     case "tags":
-                        self.listObj.listaa_tagit(self.viitteet)
+                        self.list_obj.listaa_tagit(self.viitteet)
 
 
                 
@@ -64,10 +64,10 @@ class Syote:
                 samaKoodi = True
                 while samaKoodi:
                     samaKoodi = False
-                    inpViite = input("Reference code for your citation: ").strip()
+                    inp_viite = input("Reference code for your citation: ").strip()
                     
                     for v in self.viitteet:
-                        if v.viitekoodi == inpViite:
+                        if v.viitekoodi == inp_viite:
                             samaKoodi = True
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")

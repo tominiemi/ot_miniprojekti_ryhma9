@@ -95,5 +95,12 @@ class List:
                         print(f"{viite.get_viitekoodi()}: {self.muotoile_viite(viite)}")
 
 
-                
-                        
+    def listaa_yksi(self, olio):
+        for key, value in olio.attributes.items():
+
+            if key == "author":
+                value = self.muotoile_henkilot(value)
+
+            print(key + ": " + str(value))
+
+        print("")
