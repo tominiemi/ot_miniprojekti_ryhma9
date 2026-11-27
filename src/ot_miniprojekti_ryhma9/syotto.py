@@ -64,10 +64,10 @@ class Syote:
                 self.listObj.types()
 
             elif inp.startswith("edit"):
-                osat = inp.split(maxsplit=1)
+                osat = inp.split()
 
-                if len(osat) != 2:
-                    print("Usage: edit [code]")
+                if len(osat) < 2 or len(osat) > 3:
+                    print("Usage: edit [code] or edit [code] [attribute]")
                     continue
 
                 viitekoodi = osat[1]
@@ -81,12 +81,23 @@ class Syote:
                     print(f"Reference code '{viitekoodi}' not found")
                     continue
 
+                attribuutti = osat[2] if len(osat) == 3 else None
+
+                if attribuutti and attribuutti not in viite.attributes:
+                    print(f"Attribute '{attribuutti}' not found")
+                    continue
+
                 print(f"\nEdit reference:")
                 print(f"Code: '{viite.viitekoodi}'")
                 print(f"Type: {viite.entry_type}\n")
                 self.listObj.listaa_yksi(viite)
 
-                for key, value in viite.attributes.items():
+                if (attribuutti):
+                    muokattavat = {attribuutti: viite.attributes[attribuutti]}
+                else:
+                    muokattavat = viite.attributes
+
+                for key, value in muokattavat.items():
                     if key == "author":
                         value = ", ".join(value)
 
@@ -99,7 +110,8 @@ class Syote:
                         else:
                             viite.set_attribute(key, uusi_arvo)
 
-                print("\n")
+                self.unsaved = True
+                print("\nReference updated")
             elif inp == "help":
                 print("Available commands: types / new / list / delete / edit / help / exit")
 
