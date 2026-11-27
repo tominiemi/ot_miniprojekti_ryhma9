@@ -226,12 +226,6 @@ class Syote:
                         viite.set_tag(tagi)
                         self.unsaved = True
                         print("Tag: ",tagi," set for citation: ",viite.get_viitekoodi())
-                
-                
-
-            
-            elif inp == "help":
-                print("Available commands: types / new / list / delete / edit / help / exit")
 
             elif inp == "bibtex":
                 self.tallenna_bib()
