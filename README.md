@@ -15,7 +15,7 @@ TEKA3003 Ohjelmistotuotanto miniprojektin repositorio ryhmälle 9
 [Linkki projektin backlogiin](https://jyu-my.sharepoint.com/:x:/g/personal/tsniemi_jyu_fi/IQBSWPW4fW00QbYaRjhJGizsAY0_ycqKrFx-kxDbhEjvBt8?e=04E1Bq)
 
 ## Hyväksymiskriteerien robot-testit
-[Sprintti 2](https://github.com/tominiemi/ot_miniprojekti_ryhma9/blob/robot/tests/syotto.robot)
+[Sprintti 2](https://github.com/tominiemi/ot_miniprojekti_ryhma9/blob/main/tests/syotto.robot)
 
 ## Definition of done
 - Toteutetun koodin testikattavuuden tulee olla kohtuullinen
