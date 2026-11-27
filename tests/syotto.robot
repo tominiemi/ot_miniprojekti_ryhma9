@@ -34,7 +34,7 @@ Syote Delete Reference
 
 Syote Help
     Syote Help
-    Output Should Contain    Available commands: types / new / list / delete / edit / help / exit
+    Output Should Contain    Available commands: types / new / list / delete / edit / exit / bibtex
     Syote Help    new
     Output Should Contain    Start adding a new citation (new [type])
     Syote Help    bibtex
