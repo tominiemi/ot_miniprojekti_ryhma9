@@ -31,6 +31,15 @@ class Syote:
                 file.write(viite.to_bibtex())
                 file.write("\n\n")
 
+    def onko_cancel(self, syote):
+        syote = input(syote).strip()
+
+        if syote.lower() == "cancel":
+            return None
+
+        return syote
+
+    
     def kysy_syotetta(self, tiedosto="viitteet.json"):
 
         inp = ""
@@ -41,12 +50,15 @@ class Syote:
                 self.listObj.listaa(self.viitteet)
 
             elif inp.startswith("new"):
+                cancelled = False 
+                
                 osat = inp.split(" ")
                 tyyppi = osat[1] if len(osat) > 1 else ""
 
                 if tyyppi == "":
-                        tyyppi = input("Choose type for new citation (E.g inproceedings / article / book): ").strip()
-                    
+                        tyyppi = self.onko_cancel("Type cancel to cancel adding new citation\nChoose type for new citation (E.g inproceedings / article / book): ")
+                        if tyyppi is None:
+                            continue
                 try:
                     viite = Reference(tyyppi)
                 except ValueError as e:
@@ -56,7 +68,9 @@ class Syote:
                 samaKoodi = True
                 while samaKoodi:
                     samaKoodi = False
-                    inpViite = input("Reference code for your citation: ").strip()
+                    inpViite = self.onko_cancel("Reference code for your citation: ")
+                    if inpViite is None:
+                        break
                     
                     for v in self.viitteet:
                         if v.viitekoodi == inpViite:
@@ -65,20 +79,39 @@ class Syote:
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
+                if inpViite is None:
+                    print("Cancelled creating a new citation\n")
+                    continue
                 viite.set_viitekoodi(inpViite)
+
+                
+
                 for i in viite.attributes:
                     if i == "author":
-                        syote = input("Enter author(s) Last name First name, separated by comma:")
+                        syote = self.onko_cancel("Enter author(s) Last name First name, separated by comma:")
+                        if syote is None:
+                            cancelled = True
+                            break
+                      
                         authors = syote.split(",")
                         for author in authors:
                             author=author.strip()
                             if author:
                                 viite.add_author(author)
                     else:
-                        syote = input(i + ": ")
+                    
+                        syote = self.onko_cancel(i + ": ")
+                        if syote is None:
+                            cancelled = True
+                            break
+
                         viite.set_attribute(i, syote)
+                if cancelled:
+                    print("Cancelled creating a new citation\n")
+                    continue
                 self.unsaved = True
                 self.viitteet.append(viite) 
+                print("Greated new citation")
            
             elif inp.startswith("delete"):
                 osat = inp.split(" ")
