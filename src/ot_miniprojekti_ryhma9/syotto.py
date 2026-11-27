@@ -33,6 +33,15 @@ class Syote:
                 file.write(viite.to_bibtex())
                 file.write("\n\n")
 
+    def onko_cancel(self, syote):
+        syote = input(syote).strip()
+
+        if syote.lower() == "cancel":
+            return None
+
+        return syote
+
+    
     def kysy_syotetta(self, tiedosto="viitteet.json"):
 
         inp = ""
@@ -49,12 +58,16 @@ class Syote:
                     case "tags":
                         self.list_obj.listaa_tagit(self.viitteet)
 
-
+            elif inp.startswith("new"):
+                cancelled = False 
                 
+                osat = inp.split(" ")
+                tyyppi = osat[1] if len(osat) > 1 else ""
 
-            elif inp == "new":
-                type = input("Choose type for new citation (E.g inproceedings / article / book): ")
-            
+                if tyyppi == "":
+                        tyyppi = self.onko_cancel("Type cancel to cancel adding new citation\nChoose type for new citation (E.g inproceedings / article / book): ")
+                        if tyyppi is None:
+                            continue
                 try:
                     viite = Reference(type)
                 except ValueError as e:
@@ -64,7 +77,9 @@ class Syote:
                 samaKoodi = True
                 while samaKoodi:
                     samaKoodi = False
-                    inp_viite = input("Reference code for your citation: ").strip()
+                    inp_viite = self.onko_cancel("Reference code for your citation: ")
+                    if inp_viite is None:
+                        break
                     
                     for v in self.viitteet:
                         if v.viitekoodi == inp_viite:
@@ -72,38 +87,78 @@ class Syote:
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
-                viite.set_viitekoodi(inp_viite)
+                if inpViite is None:
+                    print("Cancelled creating a new citation\n")
+                    continue
+                viite.set_viitekoodi(inpViite)
+
+                
+
                 for i in viite.attributes:
                     if i == "author":
-                        syote = input("Enter author(s) Last name First name, separated by comma:")
+                        syote = self.onko_cancel("Enter author(s) Last name First name, separated by comma:")
+                        if syote is None:
+                            cancelled = True
+                            break
+                      
                         authors = syote.split(",")
                         for author in authors:
                             author=author.strip()
                             if author:
                                 viite.add_author(author)
                     else:
-                        syote = input(i + ": ")
+                    
+                        syote = self.onko_cancel(i + ": ")
+                        if syote is None:
+                            cancelled = True
+                            break
+
                         viite.set_attribute(i, syote)
-                self.unsaved = True
-                self.viitteet.append(viite)
-
-            elif inp == "delete":
-                print("which one to delete? (0 to cancel)")
-                for ind, v in enumerate(self.viitteet):
-                    print(ind+1, ":", v.viitekoodi)
-                delInp = int(input("Number: "))
-                if delInp == 0:
+                if cancelled:
+                    print("Cancelled creating a new citation\n")
                     continue
-                if delInp > len(self.viitteet) or delInp < 0:
-                    print("Index not found :(")
-                    continue
-
-                for ind, v in enumerate(self.viitteet):
-                    if delInp == ind+1:
-                        print(v.viitekoodi, " deleted")
-                        self.viitteet.pop(ind)
                 self.unsaved = True
-                print("---------------------------------------")
+                self.viitteet.append(viite) 
+                print("Created new citation")
+           
+            elif inp.startswith("delete"):
+                osat = inp.split(" ")
+                poistettava = osat[1] if len(osat) > 1 else ""
+
+                match poistettava:
+                    case "":
+                        print("which one to delete? (0 to cancel)")
+                        for ind, v in enumerate(self.viitteet):
+                            print(ind+1, ":", v.viitekoodi)
+                        try:
+                        
+                            delInp = int(input("Number: "))
+                            if delInp == 0:
+                                continue
+                            if delInp > len(self.viitteet) or delInp < 0:
+                                print("Index not found :(")
+                                continue
+
+                            for ind, v in enumerate(self.viitteet):
+                                if delInp == ind+1:
+                                    print(v.viitekoodi, " deleted")
+                                    self.viitteet.pop(ind)
+                            self.unsaved = True
+                            print("---------------------------------------")
+                        except ValueError:
+                            print("No number given, or it was faulty, no citation was deleted")
+                    case _:
+                        poistettu = False
+
+                        for ind, v in enumerate(self.viitteet):
+                            if poistettava == v.viitekoodi:
+                                self.viitteet.pop(ind)
+                                self.unsaved = True
+                                poistettu = True
+                                print(v.viitekoodi, " deleted")
+
+                        if not poistettu:
+                            print("Reference code doesnt refer to an existing citation, nothing was deleted.")
 
             elif inp == "types":
                 self.list_obj.types()
