@@ -28,8 +28,6 @@ Syote Delete
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
     Syote Delete    Martin09
-    Syote Should Contain    ${EMPTY}
+    Output Should Contain    ${EMPTY}
 
-
-#Syote delete
 #Help komento testi

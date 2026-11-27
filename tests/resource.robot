@@ -1,5 +1,5 @@
 *** Settings ***
-Library  ../src/ot_miniprojekti_ryhma9/AppLibrary.py
+Library    ../src/ot_miniprojekti_ryhma9/AppLibrary.py
 
 *** Keywords ***
 Syote New

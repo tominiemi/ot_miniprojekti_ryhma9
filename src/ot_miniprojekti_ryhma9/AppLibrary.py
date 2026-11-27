@@ -20,8 +20,8 @@ class AppLibrary:
 
     def run_application(self):
         puskuri = io.StringIO()
-        with patch("builtins.input", side_effect=[*self._inputs, "exit"]), \
-             redirect_stdout(puskuri):
+        with patch("builtins.input", side_effect=[*self._inputs, "exit", "n"]), \
+            redirect_stdout(puskuri):
             self._syote.kysy_syotetta(self._tiedosto)
         self._output = puskuri.getvalue()
         self._inputs = []
