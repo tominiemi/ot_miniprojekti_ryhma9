@@ -146,6 +146,22 @@ class Syote:
 
                 self.unsaved = True
                 print("\nReference updated")
+
+            elif inp.startswith("tag"):
+                osat = inp.split()
+                if len(osat) != 3:
+                    print("Usage: tag [code] [tag]")
+                    continue
+                viitekoodi = osat[1]
+                tagi = osat[2]
+                for viite in self.viitteet:
+                    if viite.get_viitekoodi()==viitekoodi:
+                        viite.set_tag(tagi)
+                        print("Tag: ",tagi," set for citation: ",viite.get_viitekoodi())
+                
+                
+
+            
             elif inp == "help":
                 print("Available commands: types / new / list / delete / edit / help / exit")
 

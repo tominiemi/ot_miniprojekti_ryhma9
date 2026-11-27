@@ -9,6 +9,7 @@ class Reference:
         self.entry_type = entry_type.lower()
         self.attributes = {}
         self.viitekoodi = ""
+        self.tagit = []
 
         # Haetaan JSON-määrittely
         json_path = Path(__file__).parent / "bibtex_types.json"
@@ -95,3 +96,9 @@ class Reference:
 
     def get_authors_sorted(self):
         return sorted(self.attributes["author"])
+
+    def set_tag(self,tag):
+        self.tagit.append(tag)
+
+    def get_tags(self):
+        return self.tagit
