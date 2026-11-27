@@ -69,7 +69,7 @@ class Syote:
                         if tyyppi is None:
                             continue
                 try:
-                    viite = Reference(type)
+                    viite = Reference(tyyppi)
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
@@ -87,10 +87,10 @@ class Syote:
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
-                if inpViite is None:
+                if inp_viite is None:
                     print("Cancelled creating a new citation\n")
                     continue
-                viite.set_viitekoodi(inpViite)
+                viite.set_viitekoodi(inp_viite)
 
                 
 
