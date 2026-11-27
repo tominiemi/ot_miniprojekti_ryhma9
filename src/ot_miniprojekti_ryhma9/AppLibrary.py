@@ -4,7 +4,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from syotto import Syote
+from ot_miniprojekti_ryhma9.syotto import Syote
 
 
 class AppLibrary:
