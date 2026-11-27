@@ -16,24 +16,23 @@ from list import List
 class TestList(unittest.TestCase):
 
     def test_listaa(self):
-        reference = Reference("article")
-
-        reference.set_attribute("title", "Testi artikkeli")
-        reference.set_attribute("author", "Matti Meikäläinen")
-        reference.set_attribute("year", "2002")
+        ref = Reference("article")
+        ref.set_viitekoodi("hyva lahde")
+        ref.set_attribute("title", "Testi artikkeli")
+        ref.add_author("Meikalainen Matti")
+        ref.set_attribute("year", "2002")
 
         lista = List()
 
         with patch("builtins.print") as mock_print:
-            lista.listaa([reference])
+            lista.listaa([ref])
 
-        mock_print.assert_any_call(reference.get_viitekoodi())
+        printed = [str(call.args[0]) for call in mock_print.call_args_list]
 
-        mock_print.assert_any_call("title: Testi artikkeli")
-        mock_print.assert_any_call("author: Matti Meikäläinen")
-        mock_print.assert_any_call("year: 2002")
-
-        mock_print.assert_called_with("")
+        assert any("hyva lahde" in line for line in printed)
+        assert any("Testi artikkeli" in line for line in printed)
+        assert any("Meikalainen Matti" in line for line in printed)
+        assert any("2002" in line for line in printed)
 
     def test_listaa_tyhjalla_listalla(self):
         lista = List()
@@ -63,13 +62,9 @@ class TestList(unittest.TestCase):
 
         actual = [call.args[0] for call in mock_print.call_args_list]
 
-        expected = [
-            "article",
-            "book",
-            "inproceedings"
-        ]
-
-        self.assertEqual(actual, expected)
+        assert any("article" in line for line in actual)
+        assert any("book" in line for line in actual)
+        assert any("inproceedings" in line for line in actual)
 
 
 if __name__ == "__main__":

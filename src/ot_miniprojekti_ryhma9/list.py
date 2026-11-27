@@ -5,8 +5,12 @@ from reference import Reference
 class List:
 
     def listaa(self, lista):
+        if len(lista) == 0:
+            return
+        print("\nLähteet:\n------------------------------------------")
         for olio in lista:
             print(f"{olio.get_viitekoodi()}: {self.muotoile_viite(olio)}")
+        print("------------------------------------------\n")
 
 
     def muotoile_henkilot(self, henkilot):
@@ -68,6 +72,7 @@ class List:
         print("")
 
     def types(self):
+        print("\n--------------------------------")
         json_path = Path(__file__).parent / "bibtex_types.json"
 
         with open(json_path, "r", encoding="utf-8") as f:
@@ -75,3 +80,4 @@ class List:
 
         for name in schema["bibtex"]:
             print(name)
+        print("--------------------------------\n")
