@@ -33,7 +33,6 @@ class TestList(unittest.TestCase):
     def setUp(self):
         self.lista = List()
 
-    # --- listaa ---
 
     def test_listaa(self):
         ref = Reference("article")
@@ -58,8 +57,6 @@ class TestList(unittest.TestCase):
 
         mock_print.assert_not_called()
 
-    # --- types ---
-
     def test_types(self):
         test_schema = {
             "bibtex": {
@@ -82,8 +79,6 @@ class TestList(unittest.TestCase):
         assert any("book" in line for line in actual)
         assert any("inproceedings" in line for line in actual)
 
-    # --- muotoile_henkilot ---
-
     def test_muotoile_henkilot_tyhja(self):
         self.assertEqual(self.lista.muotoile_henkilot([]), "")
         self.assertEqual(self.lista.muotoile_henkilot(None), "")
@@ -91,8 +86,6 @@ class TestList(unittest.TestCase):
     def test_muotoile_henkilot_jarjestaa_aakkosiin(self):
         tulos = self.lista.muotoile_henkilot(["virtanen Ville", "Aalto Aino"])
         self.assertEqual(tulos, "Aalto Aino, virtanen Ville")
-
-    # --- muotoile_viite ---
 
     def test_article_kaikilla_kentilla(self):
         viite = tee_viite("article", author=["Meikalainen Matti"], year="2020",
@@ -137,8 +130,6 @@ class TestList(unittest.TestCase):
         self.assertEqual(self.lista.muotoile_viite(viite),
                          "Joku Jussi (2022). Juttu.")
 
-    # --- listaa_tagit ---
-
     def test_listaa_tagit_ei_tageja(self):
         viitteet = [tee_viite("misc", koodi="a"), tee_viite("misc", koodi="b")]
 
@@ -150,14 +141,13 @@ class TestList(unittest.TestCase):
     def test_listaa_tagit_ryhmittelee_tagin_mukaan(self):
         v1 = tee_viite("misc", koodi="eka", tags=["ai", "ml"], title="Yksi", year="2020")
         v2 = tee_viite("misc", koodi="toka", tags=["ai"], title="Kaksi", year="2021")
-        v3 = tee_viite("misc", koodi="kolmas", title="Kolme", year="2022")  # no tags
+        v3 = tee_viite("misc", koodi="kolmas", title="Kolme", year="2022")
 
         with patch("builtins.print") as mock_print:
             self.lista.listaa_tagit([v1, v2, v3])
 
         printed = tulosteet(mock_print)
 
-        # each tag gets exactly one heading, even though "ai" is on two citations
         self.assertEqual(sum("tagged with" in rivi and "ai" in rivi for rivi in printed), 1)
         self.assertEqual(sum("tagged with" in rivi and "ml" in rivi for rivi in printed), 1)
 
@@ -171,8 +161,6 @@ class TestList(unittest.TestCase):
         self.assertTrue(any(r.startswith("eka:") for r in ml_osio))
         self.assertFalse(any(r.startswith("toka:") for r in ml_osio))
         self.assertFalse(any(r.startswith("kolmas:") for r in printed))
-
-    # --- listaa_yksi ---
 
     def test_listaa_yksi(self):
         viite = tee_viite("article", author=["virtanen Ville", "Aalto Aino"], title="Otsikko")
