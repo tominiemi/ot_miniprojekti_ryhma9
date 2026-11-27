@@ -8,7 +8,7 @@ Syote With Multiple Authors Alphabetically
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
 
-Syote Edit
+Syote Edit All Fields
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
@@ -25,7 +25,7 @@ Syote Edit Single Field
     Syote List
     Output Should Contain    Martin09: Martin, Robert (1923). Clean Code. Prentice Hall.
 
-Syote Delete
+Syote Delete Reference
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
@@ -40,7 +40,7 @@ Syote Help
     Syote Help    bibtex
     Output Should Contain    Creates .bib file from current citations
 
-Syote Bibtex
+Syote Output Bibtex File
     Syote New    book    Martin09    Robert, Martin    Kalle    Clean Code    Prentice Hall    2008
     Syote List
     Output Should Contain    Martin09: Martin, Robert (2008). Clean Code. Prentice Hall.
