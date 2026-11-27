@@ -39,3 +39,7 @@ Syote Help
     [Arguments]    ${kentta}=${EMPTY}
     Input    help ${kentta}
     Run Application
+
+Syote Bibtex
+    Input    bibtex
+    Run Application
