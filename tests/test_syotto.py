@@ -10,7 +10,7 @@ sys.path.insert(
     str(Path(__file__).parent.parent / "src" / "ot_miniprojekti_ryhma9"),
 )
 
-from syotto import Syote
+from ot_miniprojekti_ryhma9.syotto import Syote
 
 class TestSyote(unittest.TestCase):
 
@@ -91,7 +91,7 @@ class TestSyote(unittest.TestCase):
         self.tiedosto.write_text(json.dumps({
             "ABC123": {
                 "type": "article",
-                "author": "Taavetti",
+                "author": ["Taavetti"],
                 "title": "Artikkelin Artikkeli",
                 "journal": "Maaginen lehdistö",
                 "year": "1999"
@@ -114,7 +114,7 @@ class TestSyote(unittest.TestCase):
             data = json.loads(self.tiedosto.read_text(encoding="utf-8"))
 
             self.assertEqual(data["ABC123"]["type"], "article")
-            self.assertEqual(data["ABC123"]["author"], "Pertti")
+            self.assertEqual(data["ABC123"]["author"], ["Pertti"])
             self.assertEqual(data["ABC123"]["title"], "Artikkelin Artikkeli")
             self.assertEqual(data["ABC123"]["journal"], "Maaginen lehdistö")
             self.assertEqual(data["ABC123"]["year"], "1999")

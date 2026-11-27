@@ -9,8 +9,8 @@ sys.path.insert(
 import json
 import unittest
 from unittest.mock import patch, mock_open
-from reference import Reference
-from list import List
+from ot_miniprojekti_ryhma9.reference import Reference
+from ot_miniprojekti_ryhma9.list import List
 
 
 class TestList(unittest.TestCase):

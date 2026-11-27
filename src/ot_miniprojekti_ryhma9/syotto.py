@@ -1,12 +1,12 @@
-from list import List
-from reference import Reference
 import json
 from pathlib import Path
+from .list import List
+from .reference import Reference
 
 class Syote:
 
     def __init__(self):
-        self.listObj = List()
+        self.list_obj = List()
         self.viitteet = []
         self.unsaved = False
 
@@ -21,6 +21,8 @@ class Syote:
             tiedot = dict(tiedot)
             viite = Reference(tiedot.pop("type"))
             viite.viitekoodi = koodi
+            tagit = tiedot.pop("tags", [])
+            viite.tagit = tagit
             for key, value in tiedot.items():
                 viite.attributes[key] = value
             self.viitteet.append(viite)
@@ -46,8 +48,15 @@ class Syote:
         while inp != "exit":
             inp = input("Give input: ").strip()
 
-            if inp == "list":
-                self.listObj.listaa(self.viitteet)
+            if inp.startswith("list") :
+                osat = inp.split()
+                command = osat[1] if len(osat) > 1 else ""
+                
+                match command:
+                    case "":
+                        self.listObj.listaa(self.viitteet)
+                    case "tags":
+                        self.listObj.listaa_tagit(self.viitteet)
 
             elif inp.startswith("new"):
                 cancelled = False 
@@ -60,11 +69,11 @@ class Syote:
                         if tyyppi is None:
                             continue
                 try:
-                    viite = Reference(tyyppi)
+                    viite = Reference(type)
                 except ValueError as e:
                     print(f"Virhe: {e}")
                     continue
-                        
+                
                 samaKoodi = True
                 while samaKoodi:
                     samaKoodi = False
@@ -75,7 +84,6 @@ class Syote:
                     for v in self.viitteet:
                         if v.viitekoodi == inpViite:
                             samaKoodi = True
-                            break
                     if samaKoodi:
                         print("Viitekoodi löytyy jo!")
                         continue
@@ -111,7 +119,7 @@ class Syote:
                     continue
                 self.unsaved = True
                 self.viitteet.append(viite) 
-                print("Greated new citation")
+                print("Created new citation")
            
             elif inp.startswith("delete"):
                 osat = inp.split(" ")
@@ -152,20 +160,19 @@ class Syote:
                         if not poistettu:
                             print("Reference code doesnt refer to an existing citation, nothing was deleted.")
 
-                                         
-
             elif inp == "types":
-                self.listObj.types()
+                self.list_obj.types()
 
             elif inp.startswith("edit"):
-                osat = inp.split(maxsplit=1)
+                osat = inp.split()
+                #osat = inp.split(maxsplit=1)
 
-                if len(osat) != 2:
-                    print("Usage: edit [code]")
+                if len(osat) < 2 or len(osat) > 3:
+                    print("Usage: edit [code] or edit [code] [attribute]")
                     continue
 
                 viitekoodi = osat[1]
-                
+
                 viite = next(
                     (v for v in self.viitteet if v.viitekoodi == viitekoodi),
                     None
@@ -175,23 +182,61 @@ class Syote:
                     print(f"Reference code '{viitekoodi}' not found")
                     continue
 
-                print(f"\nEdit reference: '{viite.viitekoodi}'")
-                print(f"Type: {viite.entry_type}\n")
+                attribuutti = osat[2] if len(osat) == 3 else None
 
-                for key, value in viite.attributes.items():
+                if attribuutti and attribuutti not in viite.attributes:
+                    print("Attribute '{attribuutti}' not found")
+                    continue
+
+                print(f"\nEdit reference:")
+                print(f"Code: '{viite.viitekoodi}'")
+                print(f"Type: {viite.entry_type}\n")
+                self.list_obj.listaa_yksi(viite)
+
+                if attribuutti:
+                    muokattavat = {attribuutti: viite.attributes[attribuutti]}
+                else:
+                    muokattavat = viite.attributes
+
+                for key, value in muokattavat.items():
+                    if key == "author":
+                        value = ", ".join(value)
+
                     uusi_arvo = input(f"{key} [{value}]: ")
 
                     if uusi_arvo.strip():
-                        viite.set_attribute(key, uusi_arvo)
+                        if key == "author":
+                            authors = [author.strip() for author in uusi_arvo.split(",")]
+                            viite.attributes[key] = authors
+                        else:
+                            viite.set_attribute(key, uusi_arvo)
+
                 self.unsaved = True
                 print("\nReference updated")
 
-                print("\n")
+            elif inp.startswith("tag"):
+                osat = inp.split()
+                if len(osat) != 3:
+                    print("Usage: tag [code] [tag]")
+                    continue
+                viitekoodi = osat[1]
+                tagi = osat[2]
+                for viite in self.viitteet:
+                    if viite.get_viitekoodi()==viitekoodi:
+                        viite.set_tag(tagi)
+                        self.unsaved = True
+                        print("Tag: ",tagi," set for citation: ",viite.get_viitekoodi())
+                
+                
+
+            
+            elif inp == "help":
+                print("Available commands: types / new / list / delete / edit / help / exit")
 
             elif inp == "bibtex":
                 self.tallenna_bib()
                 print("BibTeX file created!")
-            
+
             elif inp.startswith("help"):
                 osat = inp.split(" ")
                 command = osat[1] if len(osat) > 1 else ""
@@ -225,9 +270,8 @@ class Syote:
 
             if talleennetaanko.strip() == "y":
                 data = {
-                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes}
+                    f"{viite.viitekoodi}": {"type": viite.entry_type, **viite.attributes,"tags":viite.get_tags()}
                     for i, viite in enumerate(self.viitteet, start=1)
                 }
                 with open(tiedosto, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
-            

@@ -9,6 +9,7 @@ class Reference:
         self.entry_type = entry_type.lower()
         self.attributes = {}
         self.viitekoodi = ""
+        self.tagit = []
 
         # Haetaan JSON-määrittely
         json_path = Path(__file__).parent / "bibtex_types.json"
@@ -29,7 +30,7 @@ class Reference:
             self.attributes["author"] = []
 
 
-    
+
     def to_bibtex(self):
         entry_type = self.entry_type
 
@@ -57,7 +58,7 @@ class Reference:
         result.append("}")
 
         return "\n".join(result)
-        
+
     def get_definition(self):
         if self.entry_type not in self.schema["bibtex"]:
             raise ValueError(
@@ -95,3 +96,10 @@ class Reference:
 
     def get_authors_sorted(self):
         return sorted(self.attributes["author"])
+
+    def set_tag(self, tag):
+        if tag not in self.tagit:
+            self.tagit.append(tag)
+
+    def get_tags(self):
+        return self.tagit
